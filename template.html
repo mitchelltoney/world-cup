@@ -1,23 +1,41 @@
 <!DOCTYPE html>
+<!--
+  ============================================================================
+  LINEUP PITCH CARD — reusable template
+  ============================================================================
+  HOW TO USE (see SKILL.md for the full spec):
+    1. Edit the TEAM object and the PLAYERS array near the bottom of <script>.
+    2. Re-skin: change the CSS variables in :root, the kit colors in
+       avatarSVG() (search "KIT COLORS"), and the .flag gradient.
+    3. Render at desktop AND ~390px mobile; check labels don't overlap.
+    4. Ship this single file.
+
+  This template is team-agnostic: variables are named --primary / --secondary /
+  --accent (the rating color). The sample data below is a generic XI you should
+  replace. Pitch geometry, avatar paths, panel behavior, responsiveness and
+  accessibility are already correct — don't rebuild them.
+  ============================================================================
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USMNT Starting XI — World Cup 2026</title>
+<title>Starting XI — Lineup Card</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#0b1530;
-    --night-2:#101d40;
-    --pitch-a:#2c7a3b;
-    --pitch-b:#2f8341;
-    --chalk:rgba(255,255,255,.85);
-    --usa-red:#c9243f;
-    --usa-blue:#1f3a93;
-    --gold:#f2c14e;
-    --ink:#f4f6fb;
-    --muted:#9aa6c4;
+    /* ---- THEME: edit these to re-skin ---- */
+    --night:#0b1530;        /* page background base                */
+    --night-2:#101d40;      /* panel background top                */
+    --pitch-a:#2c7a3b;      /* pitch mow-stripe A                  */
+    --pitch-b:#2f8341;      /* pitch mow-stripe B                  */
+    --chalk:rgba(255,255,255,.85); /* pitch markings               */
+    --secondary:#c9243f;    /* accent word, panel eyebrow, stripe  */
+    --primary:#1f3a93;      /* number badge, stripe, chip bg       */
+    --accent:#f2c14e;       /* RATING color: chips, bar, ring      */
+    --ink:#f4f6fb;          /* default text                        */
+    --muted:#9aa6c4;        /* secondary text / labels             */
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -30,11 +48,14 @@
   }
   .wrap{max-width:1060px;margin:0 auto;padding:28px 16px 56px}
 
+  /* ---------- HEADER ---------- */
   header{margin-bottom:22px}
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
   }
+  /* Flag chip: abstract CSS gradient. Replace gradient for your nation/club.
+     Simple vertical tricolor example is in SKILL.md §3.4. */
   .eyebrow .flag{display:inline-block;width:20px;height:13px;border-radius:2px;overflow:hidden;
     background:linear-gradient(180deg,#c9243f 0,#c9243f 20%,#fff 20%,#fff 40%,#c9243f 40%,#c9243f 60%,#fff 60%,#fff 80%,#c9243f 80%);
     position:relative}
@@ -43,7 +64,7 @@
     font-family:'Anton',sans-serif;font-size:clamp(34px,6vw,58px);
     line-height:1.02;letter-spacing:.01em;text-transform:uppercase;margin-top:6px;
   }
-  h1 .red{color:var(--usa-red)}
+  h1 .accent{color:var(--secondary)}
   .sub{color:var(--muted);font-size:14px;margin-top:8px;font-weight:500}
   .sub b{color:var(--ink)}
 
@@ -79,7 +100,7 @@
   .arc.bottom{bottom:19.5%;transform:translateX(-50%);border-radius:120px 120px 0 0;border-bottom:none}
   .arc.top{top:19.5%;transform:translateX(-50%);border-radius:0 0 120px 120px;border-top:none}
 
-  /* ---------- PLAYERS ---------- */
+  /* ---------- PLAYER TOKEN ---------- */
   .player{
     position:absolute;transform:translate(-50%,-50%);
     display:flex;flex-direction:column;align-items:center;gap:2px;
@@ -88,26 +109,26 @@
     transition:transform .15s ease;
   }
   .player:hover{transform:translate(-50%,-50%) scale(1.07)}
-  .player:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:12px}
+  .player:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
   .avatar{
     position:relative;width:56px;height:56px;border-radius:50%;
     background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
     box-shadow:0 6px 14px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);
     display:grid;place-items:center;overflow:hidden;
   }
-  .player.active .avatar{box-shadow:0 0 0 3px var(--gold), 0 6px 16px rgba(0,0,0,.5)}
+  .player.active .avatar{box-shadow:0 0 0 3px var(--accent), 0 6px 16px rgba(0,0,0,.5)}
   .avatar svg{width:100%;height:100%;display:block}
   .badge{
     position:absolute;top:-6px;left:-8px;z-index:2;
     font-family:'Anton',sans-serif;font-size:13px;line-height:1;
-    background:var(--usa-blue);color:#fff;border:2px solid #fff;
+    background:var(--primary);color:#fff;border:2px solid #fff;
     min-width:24px;padding:4px 4px 3px;text-align:center;border-radius:7px;
     box-shadow:0 3px 6px rgba(0,0,0,.4);
   }
   .rating{
     position:absolute;bottom:-6px;right:-10px;z-index:2;
     font-weight:700;font-size:11.5px;line-height:1;
-    background:var(--gold);color:#231a05;border:2px solid #fff;
+    background:var(--accent);color:#231a05;border:2px solid #fff;
     padding:3px 5px;border-radius:8px;box-shadow:0 3px 6px rgba(0,0,0,.4);
   }
   .pname{
@@ -124,7 +145,7 @@
     box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.07);
     min-height:380px;
   }
-  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--usa-blue) 0 34%,#fff 34% 66%,var(--usa-red) 66%)}
+  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--primary) 0 34%,#fff 34% 66%,var(--secondary) 66%)}
   .panel-inner{padding:24px 26px 28px}
   .panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;gap:10px;min-height:340px;color:var(--muted)}
@@ -136,16 +157,16 @@
     background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
     box-shadow:0 8px 18px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);overflow:hidden}
   .ph-avatar svg{width:100%;height:100%}
-  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--usa-red)}
+  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary)}
   .ph-name{font-family:'Anton',sans-serif;font-size:clamp(26px,3.4vw,36px);text-transform:uppercase;line-height:1.02}
   .ph-name .num{color:var(--muted);font-size:.72em;margin-left:8px}
   .ph-club{color:var(--muted);font-size:13.5px;font-weight:600;margin-top:3px}
 
   .rating-line{display:flex;align-items:center;gap:14px;margin:16px 0 18px}
-  .rating-big{font-family:'Anton',sans-serif;font-size:34px;color:var(--gold);line-height:1}
+  .rating-big{font-family:'Anton',sans-serif;font-size:34px;color:var(--accent);line-height:1}
   .rating-big small{font-size:15px;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:600}
   .rating-bar{flex:1;height:10px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
-  .rating-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b88a1f,var(--gold));
+  .rating-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b88a1f,var(--accent));
     transition:width .45s cubic-bezier(.2,.8,.2,1)}
 
   .sect{margin-top:16px}
@@ -154,7 +175,8 @@
   .sect p{font-size:14.5px;line-height:1.6;color:#dfe5f4}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
   .chip{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;
-    background:rgba(31,58,147,.35);border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
+    background:color-mix(in srgb, var(--primary) 35%, transparent);
+    border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
 
   footer{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6;max-width:640px}
 
@@ -176,14 +198,15 @@
 <body>
 <div class="wrap">
   <header>
-    <span class="eyebrow"><span class="flag" aria-hidden="true"></span>FIFA World Cup 2026 · Group Stage</span>
-    <h1>USA <span class="red">Starting XI</span></h1>
-    <p class="sub">Pochettino's <b>4-2-3-1</b> first-choice XI · gold chip = consensus quality rating out of 10 · tap a player for the scouting card</p>
+    <span class="eyebrow"><span class="flag" aria-hidden="true"></span><span id="ctx"></span></span>
+    <h1 id="headline"></h1>
+    <p class="sub" id="sub"></p>
   </header>
 
   <div class="layout">
     <div class="pitch-frame">
-      <div class="pitch" id="pitch" aria-label="Soccer pitch with USA starting eleven">
+      <!-- Pitch geometry: copy verbatim, do not rebuild. Team attacks UP. -->
+      <div class="pitch" id="pitch" aria-label="Soccer pitch with starting eleven">
         <div class="border-line"></div>
         <div class="line halfway"></div>
         <div class="center-circle"></div>
@@ -202,52 +225,68 @@
     <aside class="panel" id="panel" aria-live="polite">
       <div class="panel-stripe"></div>
       <div class="panel-inner panel-empty" id="panelContent">
-        <div class="hint-num">XI</div>
-        <p>Select any player on the pitch to see what kind of player he is, what he's known for, and where he hurts opponents.</p>
+        <div class="hint-num" id="hintCorner">XI</div>
+        <p>Select any player on the pitch to see what kind of player they are, what they're known for, and where they hurt opponents.</p>
       </div>
     </aside>
   </div>
 
-  <footer>
-    Projected first-choice XI for the 2026 World Cup; the lineup rotates by opponent and fitness. Ratings are an editorial blend of club level, current form, and international standing — argue accordingly.
-  </footer>
+  <footer id="footer"></footer>
 </div>
 
 <script>
-/* ---- Avatar drawing: minimal head, uniform body, skin + hair only ---- */
+/* ===========================================================================
+   AVATAR — minimal flat head. Identity = skin tone + hair (color+style) only.
+   No facial features (keeps everyone uniform; avoids likeness). See SKILL.md §6.
+   =========================================================================== */
 function avatarSVG(p){
   const s = p.skin, h = p.hair;
   let hairShape = "";
-  // Head: ellipse cx=50 cy=50 rx=19 ry=21 → top of skull ≈ y=29, brow ≈ y=42
+  // Head ellipse: cx=50 cy=50 rx=19 ry=21  →  crown ≈ y27-30, brow ≈ y42
   switch(p.style){
-    case "short": // close-cropped cap covering the skull down to the brow
+    case "short":      // close-cropped cap to the brow
       hairShape = `<path d="M31 44 Q31 27 50 27 Q69 27 69 44 L69 46 Q62 38 50 38 Q38 38 31 46 Z" fill="${h}"/>`;
       break;
-    case "buzz": // very short, receding at the temples
+    case "buzz":       // very short, receding at the temples
       hairShape = `<path d="M34 42 Q35 29 50 29 Q65 29 66 42 L66 43 Q60 35 50 35 Q40 35 34 43 Z" fill="${h}" opacity="0.9"/>`;
       break;
-    case "curls": // bumpy curly cap
+    case "curls":      // bumpy curly cap
       hairShape = `<path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>`;
       break;
-    case "curlsBlond": // curly cap with blond-dyed top (McKennie)
+    case "curlsBlond": // curly cap with a dyed-blond top patch
       hairShape = `
         <path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>
         <path d="M36 33 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 l-2 6 q-6 -5 -12 -5 q-6 0 -9 3 Z" fill="#d9a441"/>`;
       break;
-    case "twists": // short twists/locs sitting on a low cap
+    case "twists":     // low cap + scattered "twists/locs"
       hairShape = `
         <path d="M32 44 Q33 30 50 30 Q67 30 68 44 L68 45 Q61 37 50 37 Q39 37 32 45 Z" fill="${h}"/>
         <circle cx="37" cy="34" r="4.6" fill="${h}"/><circle cx="45" cy="29.5" r="4.8" fill="${h}"/>
         <circle cx="54" cy="29" r="4.8" fill="${h}"/><circle cx="62" cy="32.5" r="4.6" fill="${h}"/>
         <circle cx="33" cy="40" r="4" fill="${h}"/><circle cx="67" cy="39" r="4" fill="${h}"/>`;
       break;
-    case "waves": // tight cropped hair with a crisp straight hairline
+    case "waves":      // tight crop with a crisp straight hairline
       hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/>`;
+      break;
+
+    /* ---- extra styles (add your own here) ---- */
+    case "bald":       // no hair
+      hairShape = ``;
+      break;
+    case "afro":       // large rounded shape past the skull width
+      hairShape = `<path d="M24 48 a26 24 0 1 1 52 0 q-8 -9 -26 -9 q-18 0 -26 9 Z" fill="${h}"/>`;
+      break;
+    case "mohawk":     // narrow vertical strip down the center
+      hairShape = `<path d="M44 44 Q44 25 50 24 Q56 25 56 44 Q53 39 50 39 Q47 39 44 44 Z" fill="${h}"/>`;
+      break;
+    case "long":       // hair framing the sides past the jaw
+      hairShape = `<path d="M30 44 Q30 27 50 27 Q70 27 70 44 L70 66 Q67 60 65 56 Q66 46 60 42 Q55 38 50 38 Q45 38 40 42 Q34 46 35 56 Q33 60 30 66 Z" fill="${h}"/>`;
       break;
   }
   return `
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name} avatar">
-    <!-- uniform: white shirt, blue collar -->
+    <!-- KIT COLORS: same for everyone. Body / collar / neck-V.
+         Re-skin these three fills to the team kit. -->
     <path d="M18 100 q5 -26 32 -26 q27 0 32 26 Z" fill="#ffffff"/>
     <path d="M18 100 q5 -26 32 -26 q27 0 32 26 l-8 0 q-4 -20 -24 -20 q-20 0 -24 20 Z" fill="#1f3a93"/>
     <path d="M44 76 l6 7 l6 -7 Z" fill="#c9243f"/>
@@ -261,120 +300,105 @@ function avatarSVG(p){
   </svg>`;
 }
 
-/* ---- Squad data ---- */
+/* ===========================================================================
+   TEAM — header strings. Edit these.
+   =========================================================================== */
+const TEAM = {
+  name: "Team Name",
+  headlineAccent: "Starting XI",
+  context: "Competition · Stage · vs Opponent",
+  formation: "4-2-3-1",
+  ratingNote: "gold chip = quality rating out of 10",
+  footer: "Lineup and ratings are illustrative. Ratings are an editorial blend " +
+          "of level, form, and standing — argue accordingly.",
+  hintCorner: "XI"
+};
+
+/* ===========================================================================
+   PLAYERS — one object per starter. Replace entirely. All fields required.
+   Coordinates: team attacks UP. GK y≈90 (bottom), striker y≈19 (top).
+   x=50 is the spine; x<50 left, x>50 right. See SKILL.md §4 for formation presets.
+   Sample below is a generic 4-2-3-1 placeholder.
+   =========================================================================== */
 const PLAYERS = [
-  {id:"freese", name:"Freese", full:"Matt Freese", num:24, pos:"Goalkeeper", club:"New York City FC", rating:6.7,
+  {id:"gk",  name:"Keeper",  full:"Sample Keeper",  num:1,  pos:"Goalkeeper",            club:"Club", rating:7.0,
    x:50, y:90, skin:"#e9b98e", hair:"#5b3a24", style:"short",
-   type:"A reflex-first shot-stopper who plays with the calm of a former Ivy League captain — comfortable with the ball at his feet in Pochettino's build-up.",
-   known:"Winning the No. 1 shirt late in the cycle and his penalty-shootout heroics for the U.S. in the 2025 Gold Cup.",
-   strengths:["Reflex saves","Penalty situations","Distribution","Composure"]},
-  {id:"freeman", name:"Freeman", full:"Alex Freeman", num:16, pos:"Right Back", club:"Villarreal", rating:6.9,
+   type:"Describe the goalkeeper's style — shot-stopper vs sweeper-keeper, distribution, command of the box.",
+   known:"What they're known for: clubs, trophies, signature moments.",
+   strengths:["Reflexes","Distribution","Command","Composure"]},
+
+  {id:"rb",  name:"Right B", full:"Sample Right Back", num:2, pos:"Right Back",           club:"Club", rating:7.2,
    x:82, y:71, skin:"#6f4428", hair:"#171008", style:"waves",
-   type:"A big, rangy modern fullback — the son of an NFL receiver, and it shows in his stride. Overlaps relentlessly and defends with raw athletic power.",
-   known:"His meteoric rise: MLS breakout to a La Liga move to a World Cup start, all inside two years, still only 21.",
-   strengths:["Recovery speed","Physicality","Overlapping runs","Upside"]},
-  {id:"richards", name:"Richards", full:"Chris Richards", num:3, pos:"Centre Back", club:"Crystal Palace", rating:7.8,
+   type:"Fullback style — overlapping vs inverted, defensive solidity, attacking output.",
+   known:"Career highlights.",
+   strengths:["Recovery pace","Overlaps","Crossing","Stamina"]},
+
+  {id:"rcb", name:"R-CB",    full:"Sample Centre Back", num:4, pos:"Centre Back",         club:"Club", rating:7.6,
    x:65, y:76, skin:"#7a4a2b", hair:"#15100c", style:"twists",
-   type:"The defensive cornerstone — an athletic, front-foot centre back who wins his duels in the air and steps into midfield with the ball.",
-   known:"FA Cup-winning seasons at Palace and scoring big tournament goals for the U.S., including towering set-piece headers.",
-   strengths:["Aerial duels","Pace for a CB","Ball progression","Big-game temperament"]},
-  {id:"ream", name:"Ream (C)", full:"Tim Ream", num:13, pos:"Centre Back · Captain", club:"Charlotte FC", rating:7.0,
-   x:35, y:76, skin:"#e9b98e", hair:"#7a5a3c", style:"buzz",
-   type:"The 38-year-old brain of the back line — a left-footed organizer who defends with positioning and reads the game two passes early.",
-   known:"Remarkable longevity: a Premier League mainstay at Fulham deep into his 30s, now captaining the U.S. at a home World Cup.",
-   strengths:["Reading the game","Left-footed passing","Leadership","Composure under press"]},
-  {id:"robinson", name:"Robinson", full:"Antonee Robinson", num:5, pos:"Left Back", club:"Fulham", rating:8.4,
+   type:"Centre-back profile — aerial dominance, ball-playing, aggression.",
+   known:"Career highlights.",
+   strengths:["Aerial duels","Ball progression","Reading the game","Strength"]},
+
+  {id:"lcb", name:"L-CB (C)",full:"Sample Captain",    num:5, pos:"Centre Back · Captain",club:"Club", rating:7.3,
+   x:35, y:76, skin:"#ecc096", hair:"#7a5a3c", style:"buzz",
+   type:"Organizer at the back — positioning, leadership, left-footed passing.",
+   known:"Captaincy and longevity.",
+   strengths:["Leadership","Positioning","Left foot","Composure"]},
+
+  {id:"lb",  name:"Left B",  full:"Sample Left Back",  num:3, pos:"Left Back",            club:"Club", rating:7.8,
    x:18, y:71, skin:"#8a5a35", hair:"#15100c", style:"curls",
-   type:"\"Jedi\" — arguably the best attacking left back in the Premier League. A vertical sprinter who turns defense into attack in three touches.",
-   known:"Leading Premier League fullbacks in assists and his absurd recovery pace; back to full flight after a knee cleanup.",
-   strengths:["Elite speed","Crossing & assists","1v1 defending","Engine"]},
-  {id:"adams", name:"Adams", full:"Tyler Adams", num:4, pos:"Defensive Midfield", club:"Bournemouth", rating:7.9,
+   type:"Attacking fullback — vertical pace, end product, 1v1 defending.",
+   known:"Career highlights.",
+   strengths:["Speed","Assists","1v1 defending","Engine"]},
+
+  {id:"dm",  name:"Anchor",  full:"Sample Defensive Mid", num:6, pos:"Defensive Midfield",club:"Club", rating:7.7,
    x:38, y:57, skin:"#9c6b40", hair:"#1a120a", style:"curls",
-   type:"The destroyer and emotional reference point. A swarming ball-winner who covers ground like two players and sets the press's tempo.",
-   known:"Captaining the U.S. at Qatar 2022 at age 23 and being the engine room of Bournemouth's high-press machine.",
-   strengths:["Tackling","Pressing intensity","Ground coverage","Leadership"]},
-  {id:"mckennie", name:"McKennie", full:"Weston McKennie", num:8, pos:"Central Midfield", club:"Juventus", rating:8.0,
+   type:"The screen in front of the defense — ball-winning, tempo, pressing triggers.",
+   known:"Career highlights.",
+   strengths:["Tackling","Pressing","Coverage","Discipline"]},
+
+  {id:"cm",  name:"Box-2-Box",full:"Sample Central Mid", num:8, pos:"Central Midfield",   club:"Club", rating:7.9,
    x:63, y:55, skin:"#6f4428", hair:"#171008", style:"curlsBlond",
-   type:"A chaos-positive box-to-box midfielder. Late runs into the area, monster aerial presence, and the versatility to play four positions.",
-   known:"Surviving every Juventus rebuild on sheer usefulness — and his trademark dyed curls and big-moment goals for the U.S.",
-   strengths:["Aerial threat","Late box arrivals","Versatility","Two-way motor"]},
-  {id:"dest", name:"Dest", full:"Sergiño Dest", num:2, pos:"Right Attacking Mid", club:"PSV Eindhoven", rating:7.6,
+   type:"Box-to-box engine — late runs, aerial threat, versatility.",
+   known:"Career highlights.",
+   strengths:["Late runs","Aerial threat","Versatility","Motor"]},
+
+  {id:"ram", name:"R-Wide",  full:"Sample Right Mid",  num:7, pos:"Right Attacking Mid",  club:"Club", rating:7.5,
    x:81, y:37, skin:"#a06a3e", hair:"#171008", style:"curls",
-   type:"A fullback by trade pushed high as an inverted winger-creator — pure flair, tight-space dribbling, and audacious technique on either foot.",
-   known:"His Barcelona pedigree, title-winning seasons at PSV, and being the most press-resistant dribbler in the U.S. pool.",
-   strengths:["1v1 dribbling","Press resistance","Two-footed","Final-third creativity"]},
-  {id:"tillman", name:"Tillman", full:"Malik Tillman", num:17, pos:"Attacking Midfield", club:"Bayer Leverkusen", rating:8.2,
+   type:"Wide creator — dribbling, two-footed, final-third threat.",
+   known:"Career highlights.",
+   strengths:["Dribbling","Press resistance","Creativity","Two-footed"]},
+
+  {id:"cam", name:"Number 10",full:"Sample Playmaker", num:10,pos:"Attacking Midfield",   club:"Club", rating:8.2,
    x:50, y:39, skin:"#8a5a35", hair:"#15100c", style:"curls",
-   type:"The silk between the lines. A tall, gliding No. 10 who receives on the half-turn, slips defenders with feints, and arrives for goals himself.",
-   known:"His breakout — MVP-level Eredivisie season at PSV, a big-money Bundesliga move, and becoming the U.S.'s creative hub.",
-   strengths:["Between-the-lines receiving","Ball-striking","Goal threat from 10","Press resistance"]},
-  {id:"pulisic", name:"Pulisic", full:"Christian Pulisic", num:10, pos:"Left Wing", club:"AC Milan", rating:9.0,
+   type:"The creative hub — receives between the lines, ball-striking, goal threat.",
+   known:"Career highlights.",
+   strengths:["Between lines","Ball-striking","Goal threat","Vision"]},
+
+  {id:"lw",  name:"L-Wing",  full:"Sample Winger",     num:11,pos:"Left Wing",            club:"Club", rating:8.6,
    x:19, y:35, skin:"#ecc096", hair:"#6b4a2e", style:"short",
-   type:"Captain America. The face of American soccer — an explosive left winger who attacks the half-space, beats his man, and produces in the biggest moments.",
-   known:"Career-best goal numbers at Milan, the goal-and-injury heroics vs Iran in 2022, and carrying U.S. hopes for a decade.",
-   strengths:["Explosive first step","Cutting inside to finish","Big-game scoring","Set pieces"]},
-  {id:"balogun", name:"Balogun", full:"Folarin Balogun", num:20, pos:"Striker", club:"AS Monaco", rating:7.5,
+   type:"The star wide forward — explosive, cuts inside to finish, decisive in big moments.",
+   known:"Career highlights and signature moments.",
+   strengths:["First step","Cutting inside","Big-game scoring","Set pieces"]},
+
+  {id:"st",  name:"Striker", full:"Sample Striker",    num:9, pos:"Striker",              club:"Club", rating:7.6,
    x:50, y:19, skin:"#5f3a20", hair:"#15100c", style:"waves",
-   type:"A penalty-box predator. Sharp shoulder-checks, darting runs across the front post, and a clean, early strike with either phase of play.",
-   known:"Choosing the U.S. over England after his 20-goal Ligue 1 breakout at Reims — the most natural finisher in the pool.",
-   strengths:["Movement off the shoulder","Clinical finishing","Channel runs","Pressing from the front"]}
+   type:"Penalty-box finisher — movement off the shoulder, clean strike, pressing from the front.",
+   known:"Career highlights.",
+   strengths:["Movement","Finishing","Channel runs","Pressing"]}
 ];
 
-/* ---- DEPTH / ROTATION OPTIONS — NOT rendered on the pitch ----
-   The main alternatives Pochettino rotates in for other group + knockout games.
-   Kept deliberately off the field. To promote one into the XI, move (or copy)
-   its object into PLAYERS above and remove whoever it replaces — the x/y here is
-   already that player's natural position, so it drops straight onto the pitch.
-   Nothing below iterates DEPTH, so editing this list never changes the render. */
-const DEPTH = [
-  {id:"turner", name:"Turner", full:"Matt Turner", num:1, pos:"Goalkeeper", club:"New England Revolution", rating:6.6,
-   x:50, y:90, skin:"#ecc096", hair:"#4a2c18", style:"short",
-   type:"A reflex-first shot-stopper who was the incumbent No. 1 for much of the cycle — brave and quick off his line, if less involved in build-up than Freese.",
-   known:"His Arsenal spell and standout displays at the 2022 World Cup and 2024 Copa América.",
-   strengths:["Shot-stopping","Reaction saves","Big-game nerve","Experience"]},
-
-  {id:"scally", name:"Scally", full:"Joe Scally", num:19, pos:"Right Back", club:"Borussia Mönchengladbach", rating:6.8,
-   x:82, y:71, skin:"#ecc096", hair:"#5b3a24", style:"short",
-   type:"A steady, Bundesliga-tested full back who can cover both flanks — positionally sound and tidy rather than flashy.",
-   known:"Years of regular Bundesliga minutes at Gladbach since breaking through as a teenager.",
-   strengths:["Positioning","Two-footed","Stamina","Versatility"]},
-
-  {id:"ccv", name:"Carter-Vickers", full:"Cameron Carter-Vickers", num:15, pos:"Centre Back", club:"Celtic", rating:7.1,
-   x:65, y:76, skin:"#6f4428", hair:"#15100c", style:"short",
-   type:"A powerful, front-foot centre back who wins his duels and steps in early — a natural partner alongside Richards when a back four is needed.",
-   known:"Serial trophy-winner at Celtic after a Tottenham academy upbringing.",
-   strengths:["Strength","Duels","Recovery","Blocks"]},
-
-  {id:"cardoso", name:"Cardoso", full:"Johnny Cardoso", num:18, pos:"Defensive Midfield", club:"Atlético Madrid", rating:7.2,
-   x:38, y:57, skin:"#c08a5e", hair:"#2a1a0e", style:"short",
-   type:"A composed deep-lying midfielder who breaks up play and keeps the ball moving — the like-for-like cover, or double-pivot partner, for Adams.",
-   known:"His move to Atlético Madrid and growing role as the U.S.'s alternative midfield anchor.",
-   strengths:["Interceptions","Press resistance","Passing range","Composure"]},
-
-  {id:"musah", name:"Musah", full:"Yunus Musah", num:6, pos:"Central Midfield", club:"Atalanta (on loan)", rating:7.0,
-   x:63, y:55, skin:"#7a4a2b", hair:"#15100c", style:"short",
-   type:"An explosive, ball-carrying midfielder who glides through pressure — brings legs and progression from a deeper or box-to-box role.",
-   known:"Choosing the U.S. over three other nations, and his Valencia breakout as a teenager.",
-   strengths:["Ball carrying","Press resistance","Acceleration","Energy"]},
-
-  {id:"weah", name:"Weah", full:"Tim Weah", num:21, pos:"Right Wing", club:"Olympique de Marseille", rating:7.2,
-   x:81, y:37, skin:"#7a4a2b", hair:"#15100c", style:"twists",
-   type:"A flying wide man who can fill in at wing or wing-back — direct, tireless, and most dangerous attacking space in transition.",
-   known:"Son of Ballon d'Or winner George Weah; a Ligue 1 and Serie A career and a World Cup goal in 2022.",
-   strengths:["Speed","Directness","Transition runs","Work rate"]},
-
-  {id:"reyna", name:"Reyna", full:"Gio Reyna", num:7, pos:"Attacking Midfield", club:"Borussia Mönchengladbach", rating:7.0,
-   x:50, y:39, skin:"#ecc096", hair:"#5b3a24", style:"short",
-   type:"The pool's silkiest pure creator when fit — tight control, clever passing, and a shot from range; a different flavour of No. 10 to Tillman.",
-   known:"His Dortmund pedigree and long-standing billing as a golden-boy talent of U.S. soccer.",
-   strengths:["Creativity","Ball-striking","Tight control","Vision"]},
-
-  {id:"pepi", name:"Pepi", full:"Ricardo Pepi", num:9, pos:"Striker", club:"PSV Eindhoven", rating:7.2,
-   x:50, y:19, skin:"#d9a679", hair:"#2a1a0e", style:"short",
-   type:"A relentless penalty-box striker and elite super-sub — constant movement and a habit of scoring in clusters when handed minutes.",
-   known:"His prolific Eredivisie scoring rate at PSV and choosing the U.S. over Mexico.",
-   strengths:["Movement","Poaching","Finishing","Pressing"]}
-];
+/* ===========================================================================
+   WIRING — no edits needed below.
+   =========================================================================== */
+// Header strings
+document.getElementById("ctx").textContent = TEAM.context;
+document.getElementById("headline").innerHTML =
+  `${TEAM.name} <span class="accent">${TEAM.headlineAccent}</span>`;
+document.getElementById("sub").innerHTML =
+  `<b>${TEAM.formation}</b> · ${TEAM.ratingNote} · tap a player for the scouting card`;
+document.getElementById("footer").textContent = TEAM.footer;
+document.getElementById("hintCorner").textContent = TEAM.hintCorner;
 
 const pitch = document.getElementById("pitch");
 const panelContent = document.getElementById("panelContent");
@@ -420,6 +444,7 @@ function select(p, btn){
     <div class="sect"><h3>Strengths</h3>
       <div class="chips">${p.strengths.map(s=>`<span class="chip">${s}</span>`).join("")}</div>
     </div>`;
+  // double-rAF so the CSS width transition runs from 0
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
     panelContent.querySelector(".rating-fill").style.width = (p.rating*10) + "%";
   });});
@@ -427,6 +452,12 @@ function select(p, btn){
     document.getElementById("panel").scrollIntoView({behavior:"smooth", block:"nearest"});
   }
 }
+
+/* Optional: auto-select the top-rated player on load (uncomment to enable)
+   const top = PLAYERS.reduce((a,b)=> b.rating>a.rating ? b : a);
+   const topBtn = [...pitch.querySelectorAll('.player')][PLAYERS.indexOf(top)];
+   if(topBtn) select(top, topBtn);
+*/
 </script>
 </body>
 </html>

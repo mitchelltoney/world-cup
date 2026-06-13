@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USMNT Starting XI — World Cup 2026</title>
+<title>France Starting XI — World Cup 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -13,8 +13,8 @@
     --pitch-a:#2c7a3b;
     --pitch-b:#2f8341;
     --chalk:rgba(255,255,255,.85);
-    --usa-red:#c9243f;
-    --usa-blue:#1f3a93;
+    --fr-red:#ef3340;       /* accent word, panel eyebrow, stripe */
+    --fr-blue:#2436a8;      /* number badge, stripe, chip bg       */
     --gold:#f2c14e;
     --ink:#f4f6fb;
     --muted:#9aa6c4;
@@ -35,15 +35,15 @@
     display:inline-flex;align-items:center;gap:8px;
     font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
   }
+  /* French tricolour: vertical blue | white | red (no canton) */
   .eyebrow .flag{display:inline-block;width:20px;height:13px;border-radius:2px;overflow:hidden;
-    background:linear-gradient(180deg,#c9243f 0,#c9243f 20%,#fff 20%,#fff 40%,#c9243f 40%,#c9243f 60%,#fff 60%,#fff 80%,#c9243f 80%);
+    background:linear-gradient(90deg,#2436a8 0 33.33%,#fff 33.33% 66.66%,#ef3340 66.66%);
     position:relative}
-  .eyebrow .flag::after{content:"";position:absolute;left:0;top:0;width:45%;height:55%;background:#1f3a93}
   h1{
     font-family:'Anton',sans-serif;font-size:clamp(34px,6vw,58px);
     line-height:1.02;letter-spacing:.01em;text-transform:uppercase;margin-top:6px;
   }
-  h1 .red{color:var(--usa-red)}
+  h1 .red{color:var(--fr-red)}
   .sub{color:var(--muted);font-size:14px;margin-top:8px;font-weight:500}
   .sub b{color:var(--ink)}
 
@@ -100,7 +100,7 @@
   .badge{
     position:absolute;top:-6px;left:-8px;z-index:2;
     font-family:'Anton',sans-serif;font-size:13px;line-height:1;
-    background:var(--usa-blue);color:#fff;border:2px solid #fff;
+    background:var(--fr-blue);color:#fff;border:2px solid #fff;
     min-width:24px;padding:4px 4px 3px;text-align:center;border-radius:7px;
     box-shadow:0 3px 6px rgba(0,0,0,.4);
   }
@@ -124,7 +124,7 @@
     box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.07);
     min-height:380px;
   }
-  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--usa-blue) 0 34%,#fff 34% 66%,var(--usa-red) 66%)}
+  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--fr-blue) 0 34%,#fff 34% 66%,var(--fr-red) 66%)}
   .panel-inner{padding:24px 26px 28px}
   .panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;gap:10px;min-height:340px;color:var(--muted)}
@@ -136,7 +136,7 @@
     background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
     box-shadow:0 8px 18px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);overflow:hidden}
   .ph-avatar svg{width:100%;height:100%}
-  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--usa-red)}
+  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fr-red)}
   .ph-name{font-family:'Anton',sans-serif;font-size:clamp(26px,3.4vw,36px);text-transform:uppercase;line-height:1.02}
   .ph-name .num{color:var(--muted);font-size:.72em;margin-left:8px}
   .ph-club{color:var(--muted);font-size:13.5px;font-weight:600;margin-top:3px}
@@ -154,7 +154,7 @@
   .sect p{font-size:14.5px;line-height:1.6;color:#dfe5f4}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
   .chip{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;
-    background:rgba(31,58,147,.35);border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
+    background:rgba(36,54,168,.35);border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
 
   footer{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6;max-width:640px}
 
@@ -177,13 +177,13 @@
 <div class="wrap">
   <header>
     <span class="eyebrow"><span class="flag" aria-hidden="true"></span>FIFA World Cup 2026 · Group Stage</span>
-    <h1>USA <span class="red">Starting XI</span></h1>
-    <p class="sub">Pochettino's <b>4-2-3-1</b> first-choice XI · gold chip = consensus quality rating out of 10 · tap a player for the scouting card</p>
+    <h1>FRANCE <span class="red">Starting XI</span></h1>
+    <p class="sub">Deschamps' <b>4-2-3-1</b> first-choice XI · gold chip = consensus quality rating out of 10 · tap a player for the scouting card</p>
   </header>
 
   <div class="layout">
     <div class="pitch-frame">
-      <div class="pitch" id="pitch" aria-label="Soccer pitch with USA starting eleven">
+      <div class="pitch" id="pitch" aria-label="Soccer pitch with France starting eleven">
         <div class="border-line"></div>
         <div class="line halfway"></div>
         <div class="center-circle"></div>
@@ -209,7 +209,7 @@
   </div>
 
   <footer>
-    Projected first-choice XI for the 2026 World Cup; the lineup rotates by opponent and fitness. Ratings are an editorial blend of club level, current form, and international standing — argue accordingly.
+    Projected first-choice XI for the 2026 World Cup; Deschamps rotates the lineup by opponent and fitness. Ratings are an editorial blend of club level, current form, and international standing — argue accordingly.
   </footer>
 </div>
 
@@ -229,7 +229,7 @@ function avatarSVG(p){
     case "curls": // bumpy curly cap
       hairShape = `<path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>`;
       break;
-    case "curlsBlond": // curly cap with blond-dyed top (McKennie)
+    case "curlsBlond": // curly cap with blond-dyed top
       hairShape = `
         <path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>
         <path d="M36 33 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 l-2 6 q-6 -5 -12 -5 q-6 0 -9 3 Z" fill="#d9a441"/>`;
@@ -244,13 +244,27 @@ function avatarSVG(p){
     case "waves": // tight cropped hair with a crisp straight hairline
       hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/>`;
       break;
+    case "long": // hair framing the sides past the jaw
+      hairShape = `<path d="M30 44 Q30 27 50 27 Q70 27 70 44 L70 66 Q67 60 65 56 Q66 46 60 42 Q55 38 50 38 Q45 38 40 42 Q34 46 35 56 Q33 60 30 66 Z" fill="${h}"/>`;
+      break;
+    case "bun": // hair slicked back into a small top bun
+      hairShape = `
+        <path d="M31 45 Q31 30 50 30 Q69 30 69 45 L69 46 Q62 40 50 40 Q38 40 31 46 Z" fill="${h}"/>
+        <ellipse cx="50" cy="25" rx="6.5" ry="6" fill="${h}"/>`;
+      break;
+    case "bald": // no hair
+      hairShape = ``;
+      break;
+    case "afro": // large rounded shape past the skull width
+      hairShape = `<path d="M24 48 a26 24 0 1 1 52 0 q-8 -9 -26 -9 q-18 0 -26 9 Z" fill="${h}"/>`;
+      break;
   }
   return `
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name} avatar">
-    <!-- uniform: white shirt, blue collar -->
-    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 Z" fill="#ffffff"/>
-    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 l-8 0 q-4 -20 -24 -20 q-20 0 -24 20 Z" fill="#1f3a93"/>
-    <path d="M44 76 l6 7 l6 -7 Z" fill="#c9243f"/>
+    <!-- uniform: blue France shirt, white collar, red neck-V -->
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 Z" fill="#27409c"/>
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 l-8 0 q-4 -20 -24 -20 q-20 0 -24 20 Z" fill="#ffffff"/>
+    <path d="M44 76 l6 7 l6 -7 Z" fill="#ef3340"/>
     <!-- neck -->
     <rect x="44" y="62" width="12" height="14" rx="5" fill="${s}"/>
     <!-- head -->
@@ -261,119 +275,125 @@ function avatarSVG(p){
   </svg>`;
 }
 
-/* ---- Squad data ---- */
+/* ---- Squad data: France first-choice XI (4-2-3-1) ---- */
 const PLAYERS = [
-  {id:"freese", name:"Freese", full:"Matt Freese", num:24, pos:"Goalkeeper", club:"New York City FC", rating:6.7,
-   x:50, y:90, skin:"#e9b98e", hair:"#5b3a24", style:"short",
-   type:"A reflex-first shot-stopper who plays with the calm of a former Ivy League captain — comfortable with the ball at his feet in Pochettino's build-up.",
-   known:"Winning the No. 1 shirt late in the cycle and his penalty-shootout heroics for the U.S. in the 2025 Gold Cup.",
-   strengths:["Reflex saves","Penalty situations","Distribution","Composure"]},
-  {id:"freeman", name:"Freeman", full:"Alex Freeman", num:16, pos:"Right Back", club:"Villarreal", rating:6.9,
-   x:82, y:71, skin:"#6f4428", hair:"#171008", style:"waves",
-   type:"A big, rangy modern fullback — the son of an NFL receiver, and it shows in his stride. Overlaps relentlessly and defends with raw athletic power.",
-   known:"His meteoric rise: MLS breakout to a La Liga move to a World Cup start, all inside two years, still only 21.",
-   strengths:["Recovery speed","Physicality","Overlapping runs","Upside"]},
-  {id:"richards", name:"Richards", full:"Chris Richards", num:3, pos:"Centre Back", club:"Crystal Palace", rating:7.8,
-   x:65, y:76, skin:"#7a4a2b", hair:"#15100c", style:"twists",
-   type:"The defensive cornerstone — an athletic, front-foot centre back who wins his duels in the air and steps into midfield with the ball.",
-   known:"FA Cup-winning seasons at Palace and scoring big tournament goals for the U.S., including towering set-piece headers.",
-   strengths:["Aerial duels","Pace for a CB","Ball progression","Big-game temperament"]},
-  {id:"ream", name:"Ream (C)", full:"Tim Ream", num:13, pos:"Centre Back · Captain", club:"Charlotte FC", rating:7.0,
-   x:35, y:76, skin:"#e9b98e", hair:"#7a5a3c", style:"buzz",
-   type:"The 38-year-old brain of the back line — a left-footed organizer who defends with positioning and reads the game two passes early.",
-   known:"Remarkable longevity: a Premier League mainstay at Fulham deep into his 30s, now captaining the U.S. at a home World Cup.",
-   strengths:["Reading the game","Left-footed passing","Leadership","Composure under press"]},
-  {id:"robinson", name:"Robinson", full:"Antonee Robinson", num:5, pos:"Left Back", club:"Fulham", rating:8.4,
-   x:18, y:71, skin:"#8a5a35", hair:"#15100c", style:"curls",
-   type:"\"Jedi\" — arguably the best attacking left back in the Premier League. A vertical sprinter who turns defense into attack in three touches.",
-   known:"Leading Premier League fullbacks in assists and his absurd recovery pace; back to full flight after a knee cleanup.",
-   strengths:["Elite speed","Crossing & assists","1v1 defending","Engine"]},
-  {id:"adams", name:"Adams", full:"Tyler Adams", num:4, pos:"Defensive Midfield", club:"Bournemouth", rating:7.9,
-   x:38, y:57, skin:"#9c6b40", hair:"#1a120a", style:"curls",
-   type:"The destroyer and emotional reference point. A swarming ball-winner who covers ground like two players and sets the press's tempo.",
-   known:"Captaining the U.S. at Qatar 2022 at age 23 and being the engine room of Bournemouth's high-press machine.",
-   strengths:["Tackling","Pressing intensity","Ground coverage","Leadership"]},
-  {id:"mckennie", name:"McKennie", full:"Weston McKennie", num:8, pos:"Central Midfield", club:"Juventus", rating:8.0,
-   x:63, y:55, skin:"#6f4428", hair:"#171008", style:"curlsBlond",
-   type:"A chaos-positive box-to-box midfielder. Late runs into the area, monster aerial presence, and the versatility to play four positions.",
-   known:"Surviving every Juventus rebuild on sheer usefulness — and his trademark dyed curls and big-moment goals for the U.S.",
-   strengths:["Aerial threat","Late box arrivals","Versatility","Two-way motor"]},
-  {id:"dest", name:"Dest", full:"Sergiño Dest", num:2, pos:"Right Attacking Mid", club:"PSV Eindhoven", rating:7.6,
+  {id:"maignan", name:"Maignan", full:"Mike Maignan", num:16, pos:"Goalkeeper", club:"AC Milan", rating:8.4,
+   x:50, y:90, skin:"#6f4428", hair:"#15100c", style:"short",
+   type:"A complete modern goalkeeper — commanding in the air, lightning reflexes, and arguably the best distributor of any keeper at the tournament. Sweeps the space behind a high line and starts attacks with his feet.",
+   known:"Inheriting the France gloves after Lloris and his save-of-the-season years as AC Milan's No. 1.",
+   strengths:["Shot-stopping","Distribution","Command of box","Sweeping"]},
+  {id:"kounde", name:"Koundé", full:"Jules Koundé", num:5, pos:"Right Back", club:"Barcelona", rating:8.0,
+   x:82, y:71, skin:"#7a4a2b", hair:"#15100c", style:"twists",
+   type:"A centre-back by training converted into an elite, tournament-tested right back — quick, aggressive in the duel, and increasingly productive overlapping into the final third.",
+   known:"Champions League and LaLiga titles at Barcelona, and being one of France's most reliable big-game performers since 2022.",
+   strengths:["1v1 defending","Recovery pace","Overlaps","Tournament nous"]},
+  {id:"saliba", name:"Saliba", full:"William Saliba", num:17, pos:"Centre Back", club:"Arsenal", rating:8.6,
+   x:65, y:76, skin:"#6f4428", hair:"#15100c", style:"short",
+   type:"The serene foundation of the defence — a long-striding, front-foot centre back who snuffs out danger early, wins his duels, and brings the ball out with total composure.",
+   known:"Anchoring Arsenal's title charges and establishing himself as one of the very best defenders in world football.",
+   strengths:["Anticipation","Pace","Aerial duels","Ball progression"]},
+  {id:"upamecano", name:"Upamecano", full:"Dayot Upamecano", num:4, pos:"Centre Back", club:"Bayern Munich", rating:7.9,
+   x:35, y:76, skin:"#5f3a20", hair:"#15100c", style:"buzz",
+   type:"A ferociously athletic centre back — explosive in the recovery, dominant in the air, and aggressive stepping out to win the ball high up the pitch.",
+   known:"Years as a Champions League regular at Bayern Munich and a fixture in the France back line.",
+   strengths:["Power","Pace","Aerial duels","Front-foot defending"]},
+  {id:"theo", name:"T. Hernández", full:"Theo Hernández", num:19, pos:"Left Back", club:"AC Milan", rating:8.1,
+   x:18, y:71, skin:"#ecc096", hair:"#2a1a0e", style:"long",
+   type:"A galloping, two-way left back who turns defence into attack in a few strides — devastating on the overlap with a fierce left foot, and brave defending one-on-one.",
+   known:"His marauding Champions League nights at AC Milan and forming one of France's most dangerous left flanks.",
+   strengths:["Driving runs","Left foot","Crossing","Athleticism"]},
+  {id:"tchouameni", name:"Tchouaméni", full:"Aurélien Tchouaméni", num:8, pos:"Defensive Midfield", club:"Real Madrid", rating:8.2,
+   x:63, y:55, skin:"#6f4428", hair:"#15100c", style:"short",
+   type:"The metronome and shield — a tall, elegant holding midfielder who screens the defence, wins the second ball, and dictates tempo with clean, forward passing.",
+   known:"A marquee Real Madrid midfielder and Champions League winner, so reliable he is often used at centre back for his club.",
+   strengths:["Positioning","Ball-winning","Passing range","Composure"]},
+  {id:"rabiot", name:"Rabiot", full:"Adrien Rabiot", num:14, pos:"Defensive Midfield", club:"AC Milan", rating:7.8,
+   x:38, y:57, skin:"#f2cfa6", hair:"#2a1a0e", style:"bun",
+   type:"A rangy, left-footed all-action midfielder who covers enormous ground, arrives late in the box, and gives the pivot balance and bite alongside Tchouaméni.",
+   known:"A revival to top form at AC Milan after long service, and a near-ever-present for France across three major tournaments.",
+   strengths:["Engine","Late runs","Left foot","Duels"]},
+  {id:"olise", name:"Olise", full:"Michael Olise", num:11, pos:"Right Attacking Mid", club:"Bayern Munich", rating:8.5,
    x:81, y:37, skin:"#a06a3e", hair:"#171008", style:"curls",
-   type:"A fullback by trade pushed high as an inverted winger-creator — pure flair, tight-space dribbling, and audacious technique on either foot.",
-   known:"His Barcelona pedigree, title-winning seasons at PSV, and being the most press-resistant dribbler in the U.S. pool.",
-   strengths:["1v1 dribbling","Press resistance","Two-footed","Final-third creativity"]},
-  {id:"tillman", name:"Tillman", full:"Malik Tillman", num:17, pos:"Attacking Midfield", club:"Bayer Leverkusen", rating:8.2,
-   x:50, y:39, skin:"#8a5a35", hair:"#15100c", style:"curls",
-   type:"The silk between the lines. A tall, gliding No. 10 who receives on the half-turn, slips defenders with feints, and arrives for goals himself.",
-   known:"His breakout — MVP-level Eredivisie season at PSV, a big-money Bundesliga move, and becoming the U.S.'s creative hub.",
-   strengths:["Between-the-lines receiving","Ball-striking","Goal threat from 10","Press resistance"]},
-  {id:"pulisic", name:"Pulisic", full:"Christian Pulisic", num:10, pos:"Left Wing", club:"AC Milan", rating:9.0,
-   x:19, y:35, skin:"#ecc096", hair:"#6b4a2e", style:"short",
-   type:"Captain America. The face of American soccer — an explosive left winger who attacks the half-space, beats his man, and produces in the biggest moments.",
-   known:"Career-best goal numbers at Milan, the goal-and-injury heroics vs Iran in 2022, and carrying U.S. hopes for a decade.",
-   strengths:["Explosive first step","Cutting inside to finish","Big-game scoring","Set pieces"]},
-  {id:"balogun", name:"Balogun", full:"Folarin Balogun", num:20, pos:"Striker", club:"AS Monaco", rating:7.5,
-   x:50, y:19, skin:"#5f3a20", hair:"#15100c", style:"waves",
-   type:"A penalty-box predator. Sharp shoulder-checks, darting runs across the front post, and a clean, early strike with either phase of play.",
-   known:"Choosing the U.S. over England after his 20-goal Ligue 1 breakout at Reims — the most natural finisher in the pool.",
-   strengths:["Movement off the shoulder","Clinical finishing","Channel runs","Pressing from the front"]}
+   type:"A silky, two-footed wide creator who drifts inside to manufacture chances — gliding dribbles, whipped deliveries, and a growing goal tally from the right.",
+   known:"His breakout into world-class form at Bayern Munich after impressing in the Premier League.",
+   strengths:["Creativity","Dribbling","Set pieces","Two-footed"]},
+  {id:"doue", name:"Doué", full:"Désiré Doué", num:20, pos:"Attacking Midfield", club:"Paris Saint-Germain", rating:8.0,
+   x:50, y:39, skin:"#7a4a2b", hair:"#15100c", style:"short",
+   type:"A fearless young playmaker who plays with total freedom — quick feet in tight spaces, vertical dribbling, and the nerve to produce on the very biggest stage.",
+   known:"Bursting onto the scene at PSG, including a star turn in their Champions League triumph.",
+   strengths:["Dribbling","Press resistance","Vertical runs","Big-game temperament"]},
+  {id:"mbappe", name:"Mbappé (C)", full:"Kylian Mbappé", num:10, pos:"Left Wing · Captain", club:"Real Madrid", rating:9.3,
+   x:19, y:35, skin:"#8a5a35", hair:"#15100c", style:"waves",
+   type:"The captain and the engine of everything — generational acceleration, ruthless finishing off either foot, and the ability to decide any match in a single moment, whether from the left or through the middle.",
+   known:"A World Cup winner and final hat-trick hero, France's all-time talisman, and a Galáctico forward at Real Madrid.",
+   strengths:["Explosive pace","Finishing","1v1 dribbling","Decisive moments"]},
+  {id:"dembele", name:"Dembélé", full:"Ousmane Dembélé", num:7, pos:"Striker", club:"Paris Saint-Germain", rating:9.2,
+   x:50, y:19, skin:"#6f4428", hair:"#c08a3a", style:"twists",
+   type:"Reinvented as a relentless, two-footed forward who leads the line by dropping, carrying, and combining — unpredictable on the dribble and now a genuine match-winner from the front.",
+   known:"His career-defining, trophy-laden season at PSG that pushed him to the very top of the individual awards.",
+   strengths:["Two-footed dribbling","Final ball","Movement","Transition threat"]}
 ];
 
 /* ---- DEPTH / ROTATION OPTIONS — NOT rendered on the pitch ----
-   The main alternatives Pochettino rotates in for other group + knockout games.
+   The main alternatives Deschamps rotates in for other group + knockout games.
    Kept deliberately off the field. To promote one into the XI, move (or copy)
    its object into PLAYERS above and remove whoever it replaces — the x/y here is
    already that player's natural position, so it drops straight onto the pitch.
    Nothing below iterates DEPTH, so editing this list never changes the render. */
 const DEPTH = [
-  {id:"turner", name:"Turner", full:"Matt Turner", num:1, pos:"Goalkeeper", club:"New England Revolution", rating:6.6,
-   x:50, y:90, skin:"#ecc096", hair:"#4a2c18", style:"short",
-   type:"A reflex-first shot-stopper who was the incumbent No. 1 for much of the cycle — brave and quick off his line, if less involved in build-up than Freese.",
-   known:"His Arsenal spell and standout displays at the 2022 World Cup and 2024 Copa América.",
-   strengths:["Shot-stopping","Reaction saves","Big-game nerve","Experience"]},
+  {id:"samba", name:"Samba", full:"Brice Samba", num:1, pos:"Goalkeeper", club:"Stade Rennais", rating:7.0,
+   x:50, y:90, skin:"#6f4428", hair:"#15100c", style:"short",
+   type:"A vocal, athletic shot-stopper and reliable deputy to Maignan — quick reflexes and a calm presence with the ball at his feet.",
+   known:"His standout Ligue 1 form and penalty-saving reputation.",
+   strengths:["Reflexes","Penalties","Distribution","Communication"]},
 
-  {id:"scally", name:"Scally", full:"Joe Scally", num:19, pos:"Right Back", club:"Borussia Mönchengladbach", rating:6.8,
-   x:82, y:71, skin:"#ecc096", hair:"#5b3a24", style:"short",
-   type:"A steady, Bundesliga-tested full back who can cover both flanks — positionally sound and tidy rather than flashy.",
-   known:"Years of regular Bundesliga minutes at Gladbach since breaking through as a teenager.",
-   strengths:["Positioning","Two-footed","Stamina","Versatility"]},
+  {id:"gusto", name:"Gusto", full:"Malo Gusto", num:2, pos:"Right Back", club:"Chelsea", rating:7.2,
+   x:82, y:71, skin:"#c08a5e", hair:"#2a1a0e", style:"short",
+   type:"An energetic, attack-minded right back who flies forward and crosses early — the natural rotation for Koundé.",
+   known:"His Premier League development at Chelsea after breaking through at Lyon.",
+   strengths:["Engine","Overlaps","Crossing","Youth"]},
 
-  {id:"ccv", name:"Carter-Vickers", full:"Cameron Carter-Vickers", num:15, pos:"Centre Back", club:"Celtic", rating:7.1,
-   x:65, y:76, skin:"#6f4428", hair:"#15100c", style:"short",
-   type:"A powerful, front-foot centre back who wins his duels and steps in early — a natural partner alongside Richards when a back four is needed.",
-   known:"Serial trophy-winner at Celtic after a Tottenham academy upbringing.",
-   strengths:["Strength","Duels","Recovery","Blocks"]},
+  {id:"konate", name:"Konaté", full:"Ibrahima Konaté", num:3, pos:"Centre Back", club:"Liverpool", rating:8.0,
+   x:65, y:76, skin:"#5f3a20", hair:"#15100c", style:"short",
+   type:"A powerhouse centre back with elite recovery pace — would walk into most XIs and rotates with Upamecano alongside Saliba.",
+   known:"Anchoring Liverpool's defence next to Van Dijk and his big-tournament experience.",
+   strengths:["Pace","Strength","Aerial duels","Front-foot defending"]},
 
-  {id:"cardoso", name:"Cardoso", full:"Johnny Cardoso", num:18, pos:"Defensive Midfield", club:"Atlético Madrid", rating:7.2,
-   x:38, y:57, skin:"#c08a5e", hair:"#2a1a0e", style:"short",
-   type:"A composed deep-lying midfielder who breaks up play and keeps the ball moving — the like-for-like cover, or double-pivot partner, for Adams.",
-   known:"His move to Atlético Madrid and growing role as the U.S.'s alternative midfield anchor.",
-   strengths:["Interceptions","Press resistance","Passing range","Composure"]},
+  {id:"digne", name:"Digne", full:"Lucas Digne", num:21, pos:"Left Back", club:"Aston Villa", rating:7.1,
+   x:18, y:71, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+   type:"An experienced, left-footed full back and dead-ball specialist — more measured than Theo, with pinpoint delivery.",
+   known:"A long Premier League career and one of France's most accurate crossers.",
+   strengths:["Crossing","Set pieces","Experience","Left foot"]},
 
-  {id:"musah", name:"Musah", full:"Yunus Musah", num:6, pos:"Central Midfield", club:"Atalanta (on loan)", rating:7.0,
-   x:63, y:55, skin:"#7a4a2b", hair:"#15100c", style:"short",
-   type:"An explosive, ball-carrying midfielder who glides through pressure — brings legs and progression from a deeper or box-to-box role.",
-   known:"Choosing the U.S. over three other nations, and his Valencia breakout as a teenager.",
-   strengths:["Ball carrying","Press resistance","Acceleration","Energy"]},
+  {id:"kante", name:"Kanté", full:"N'Golo Kanté", num:13, pos:"Defensive Midfield", club:"Al-Ittihad", rating:7.7,
+   x:38, y:57, skin:"#6f4428", hair:"#15100c", style:"buzz",
+   type:"The tireless ball-winner whose engine and interceptions still tilt games — a more disruptive profile in the pivot.",
+   known:"A World Cup, Champions League and Premier League winner regarded as one of the great modern midfielders.",
+   strengths:["Interceptions","Stamina","Ball-winning","Humility"]},
 
-  {id:"weah", name:"Weah", full:"Tim Weah", num:21, pos:"Right Wing", club:"Olympique de Marseille", rating:7.2,
-   x:81, y:37, skin:"#7a4a2b", hair:"#15100c", style:"twists",
-   type:"A flying wide man who can fill in at wing or wing-back — direct, tireless, and most dangerous attacking space in transition.",
-   known:"Son of Ballon d'Or winner George Weah; a Ligue 1 and Serie A career and a World Cup goal in 2022.",
-   strengths:["Speed","Directness","Transition runs","Work rate"]},
+  {id:"kone", name:"Koné", full:"Manu Koné", num:15, pos:"Central Midfield", club:"AS Roma", rating:7.4,
+   x:63, y:55, skin:"#6f4428", hair:"#15100c", style:"twists",
+   type:"A powerful, ground-covering box-to-box midfielder who carries the ball through lines — athletic insurance for the engine room.",
+   known:"His rise to a key role at Roma after impressing in the Bundesliga.",
+   strengths:["Ball carrying","Duels","Range","Energy"]},
 
-  {id:"reyna", name:"Reyna", full:"Gio Reyna", num:7, pos:"Attacking Midfield", club:"Borussia Mönchengladbach", rating:7.0,
-   x:50, y:39, skin:"#ecc096", hair:"#5b3a24", style:"short",
-   type:"The pool's silkiest pure creator when fit — tight control, clever passing, and a shot from range; a different flavour of No. 10 to Tillman.",
-   known:"His Dortmund pedigree and long-standing billing as a golden-boy talent of U.S. soccer.",
-   strengths:["Creativity","Ball-striking","Tight control","Vision"]},
+  {id:"cherki", name:"Cherki", full:"Rayan Cherki", num:22, pos:"Attacking Midfield", club:"Manchester City", rating:7.8,
+   x:50, y:39, skin:"#c08a5e", hair:"#171008", style:"short",
+   type:"A dazzling, left-footed creator who unlocks low blocks with audacious passes and close control — a change-of-tempo option behind the striker.",
+   known:"His big-money move to Manchester City and reputation as one of France's most gifted technicians.",
+   strengths:["Vision","Tight control","Final ball","Flair"]},
 
-  {id:"pepi", name:"Pepi", full:"Ricardo Pepi", num:9, pos:"Striker", club:"PSV Eindhoven", rating:7.2,
-   x:50, y:19, skin:"#d9a679", hair:"#2a1a0e", style:"short",
-   type:"A relentless penalty-box striker and elite super-sub — constant movement and a habit of scoring in clusters when handed minutes.",
-   known:"His prolific Eredivisie scoring rate at PSV and choosing the U.S. over Mexico.",
-   strengths:["Movement","Poaching","Finishing","Pressing"]}
+  {id:"barcola", name:"Barcola", full:"Bradley Barcola", num:24, pos:"Left Wing", club:"Paris Saint-Germain", rating:7.8,
+   x:19, y:35, skin:"#7a4a2b", hair:"#15100c", style:"short",
+   type:"A direct, frighteningly quick wide forward who beats his man on the outside and stretches defences — a like-for-like alternative on the left.",
+   known:"His breakout into a key role for treble-chasing PSG.",
+   strengths:["Speed","Directness","1v1","Final-third runs"]},
+
+  {id:"mthuram", name:"M. Thuram", full:"Marcus Thuram", num:9, pos:"Striker", club:"Inter Milan", rating:7.9,
+   x:50, y:19, skin:"#6f4428", hair:"#15100c", style:"short",
+   type:"A big, mobile centre-forward who leads the line with his back to goal, runs the channels, and offers a more orthodox No. 9 than Dembélé.",
+   known:"His prolific Serie A goals for Inter and following his father Lilian into the France side.",
+   strengths:["Hold-up play","Channel runs","Aerial threat","Finishing"]}
 ];
 
 const pitch = document.getElementById("pitch");
