@@ -1,13 +1,14 @@
 # World Cup 2026 — Starting XI Board
 
-Interactive starting-XI cards for eight World Cup 2026 national teams — USA,
-France, Spain, Argentina, England, Portugal, Brazil and Germany. Pick a team from
-the always-on switcher to see its projected first-choice XI laid out on a pitch,
-tap any player for a scouting card (role, what they're known for, strengths), and
+Interactive starting-XI cards for twelve World Cup 2026 national teams — USA,
+France, Spain, Argentina, England, Portugal, Brazil, Germany, Netherlands,
+Norway, Croatia and Japan. Pick a team from the always-on switcher to see its
+projected first-choice XI laid out on a pitch, tap any player (on the pitch or
+the bench) for a scouting card (role, what they're known for, strengths), and
 read a 0–10 editorial rating for each player.
 
 **Live:** https://mitchelltoney.github.io/world-cup/
-Direct team links: append a team hash to the URL — `#usa` · `#france` · `#spain` · `#argentina` · `#england` · `#portugal` · `#brazil` · `#germany`
+Direct team links: append a team hash to the URL — `#usa` · `#france` · `#spain` · `#argentina` · `#england` · `#portugal` · `#brazil` · `#germany` · `#netherlands` · `#norway` · `#croatia` · `#japan`
 
 ## How it works
 
@@ -16,8 +17,8 @@ Direct team links: append a team hash to the URL — `#usa` · `#france` · `#sp
   step and no dependencies (Google Fonts is the only network call).
 - **`data/<team>.js`** — one file per team. Each self-registers into
   `window.TEAMS` and carries the team's theme + flag, the starting XI
-  (`players`), and the bench (`depth` — not shown on the pitch, ready to swap in
-  for other games).
+  (`players`), and the bench (`depth`, shown as clickable rotation options under
+  the scouting panel and ready to swap into the XI for other games).
 
 ## Add a team
 
