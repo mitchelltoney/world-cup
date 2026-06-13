@@ -286,47 +286,131 @@ function avatarSVG(p){
   const s = p.skin, h = p.hair;
   let hairShape = "";
   // Head: ellipse cx=50 cy=50 rx=19 ry=21 → crown ≈ y29, brow ≈ y42
+  // ----- HAIR LIBRARY (minimalist; identity = skin + hair colour + style) -----
+  // Head: ellipse cx50 cy50 rx19 ry21 → crown ≈ y29, brow ≈ y42, temples x31/x69.
   switch(p.style){
-    case "short":
+    /* --- short / smooth family --- */
+    case "short":     // standard close crop to the brow
       hairShape = `<path d="M31 44 Q31 27 50 27 Q69 27 69 44 L69 46 Q62 38 50 38 Q38 38 31 46 Z" fill="${h}"/>`;
       break;
-    case "buzz":
-      hairShape = `<path d="M34 42 Q35 29 50 29 Q65 29 66 42 L66 43 Q60 35 50 35 Q40 35 34 43 Z" fill="${h}" opacity="0.9"/>`;
+    case "buzz":      // very short, slightly receding, faded
+      hairShape = `<path d="M33 43 Q34 30 50 30 Q66 30 67 43 L67 44 Q60 36 50 36 Q40 36 33 44 Z" fill="${h}" opacity="0.85"/>`;
       break;
-    case "curls":
+    case "crop":      // french crop — fuller, low textured fringe
+      hairShape = `<path d="M31 44 Q31 28 50 28 Q69 28 69 44 L65 44 Q62 42 59 43 Q56 42 53 43 Q50 42 47 43 Q44 42 41 43 Q38 42 35 44 Z" fill="${h}"/>`;
+      break;
+    case "waves":     // tight crop with 360-wave texture
+      hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/><path d="M37 34 Q50 32 63 34 M36 39 Q50 37 64 39" stroke="rgba(0,0,0,.2)" stroke-width="1" fill="none" stroke-linecap="round"/>`;
+      break;
+    case "fade":      // hair on top only, skin/faded sides
+      hairShape = `<path d="M35 41 Q36 30 50 30 Q64 30 65 41 Q58 37 50 37 Q42 37 35 41 Z" fill="${h}"/>`;
+      break;
+    case "taper":     // curly textured top + faded sides
+      hairShape = `<path d="M34 42 Q34 33 40 32 Q42 28 47 30 Q50 27 53 30 Q58 28 60 32 Q66 33 66 42 Q58 37 50 37 Q42 37 34 42 Z" fill="${h}"/>`;
+      break;
+    case "slick":     // slicked back, smooth, high hairline
+      hairShape = `<path d="M33 41 Q33 30 50 30 Q67 30 67 41 L67 43 Q60 40 50 40 Q40 40 33 43 Z" fill="${h}"/><path d="M41 33 Q50 31 59 33" stroke="rgba(255,255,255,.16)" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
+      break;
+    case "sidepart":  // short with a side parting line
+      hairShape = `<path d="M31 44 Q31 27 50 27 Q69 27 69 44 L69 45 Q62 38 50 38 Q38 38 31 45 Z" fill="${h}"/><path d="M58 29 Q56 36 54 43" stroke="rgba(0,0,0,.28)" stroke-width="1.4" fill="none" stroke-linecap="round"/>`;
+      break;
+    case "quiff":     // volume swept up at the front
+      hairShape = `<path d="M34 43 Q33 33 39 31 Q42 24 50 26 Q58 25 59 31 Q66 33 65 43 Q58 38 50 38 Q42 38 34 43 Z" fill="${h}"/>`;
+      break;
+    case "spiky":     // short spikes on top
+      hairShape = `<path d="M33 43 L36 33 L40 41 L43 31 L47 40 L50 30 L53 40 L57 31 L60 41 L64 33 L67 43 Q58 38 50 38 Q42 38 33 43 Z" fill="${h}"/>`;
+      break;
+    case "receding":  // thinning / receded M-hairline
+      hairShape = `<path d="M33 46 Q33 40 38 39 Q40 33 50 33 Q60 33 62 39 Q67 40 67 46 Q64 43 60 42 Q58 38 50 38 Q42 38 40 42 Q36 43 33 46 Z" fill="${h}" opacity="0.92"/>`;
+      break;
+
+    /* --- curly / textured family --- */
+    case "curls":     // short curly cap
       hairShape = `<path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>`;
       break;
-    case "curlsBlond":
+    case "coils":     // tight uniform coils
+      hairShape = `
+        <path d="M32 44 Q32 30 50 30 Q68 30 68 44 Q60 38 50 38 Q40 38 32 44 Z" fill="${h}"/>
+        <g fill="${h}"><circle cx="37" cy="33" r="2.7"/><circle cx="43" cy="30.5" r="2.7"/><circle cx="50" cy="30" r="2.8"/><circle cx="57" cy="30.5" r="2.7"/><circle cx="63" cy="33" r="2.7"/><circle cx="34" cy="38" r="2.4"/><circle cx="66" cy="38" r="2.4"/></g>`;
+      break;
+    case "curlsBig":  // voluminous curly mound (e.g. Cucurella)
+      hairShape = `<path d="M27 49 q-4 -14 6 -19 q0 -10 11 -10 q6 -6 13 -2 q12 -2 13 9 q9 4 5 14 q3 6 -3 11 q-9 -10 -22 -10 q-15 0 -23 10 Z" fill="${h}"/>`;
+      break;
+    case "curlsBlond":// curly cap with a dyed-blond top patch
       hairShape = `
         <path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>
         <path d="M36 33 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 l-2 6 q-6 -5 -12 -5 q-6 0 -9 3 Z" fill="#d9a441"/>`;
       break;
-    case "twists":
+    case "afro":      // large rounded afro
+      hairShape = `<path d="M24 48 a26 24 0 1 1 52 0 q-8 -9 -26 -9 q-18 0 -26 9 Z" fill="${h}"/>`;
+      break;
+    case "hightop":   // flat-top box, faded lower sides
+      hairShape = `<path d="M37 42 L37 30 Q37 25 42 25 L58 25 Q63 25 63 30 L63 42 Q57 38 50 38 Q43 38 37 42 Z" fill="${h}"/>`;
+      break;
+
+    /* --- twists / locs / braids family --- */
+    case "twists":    // short twists / locs
       hairShape = `
         <path d="M32 44 Q33 30 50 30 Q67 30 68 44 L68 45 Q61 37 50 37 Q39 37 32 45 Z" fill="${h}"/>
         <circle cx="37" cy="34" r="4.6" fill="${h}"/><circle cx="45" cy="29.5" r="4.8" fill="${h}"/>
         <circle cx="54" cy="29" r="4.8" fill="${h}"/><circle cx="62" cy="32.5" r="4.6" fill="${h}"/>
         <circle cx="33" cy="40" r="4" fill="${h}"/><circle cx="67" cy="39" r="4" fill="${h}"/>`;
       break;
-    case "waves":
-      hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/>`;
+    case "dreads":    // longer locs hanging down the sides
+      hairShape = `
+        <path d="M31 43 Q31 28 50 28 Q69 28 69 43 Q60 37 50 37 Q40 37 31 43 Z" fill="${h}"/>
+        <g fill="${h}"><path d="M31 40 q-3 13 -1 25 q3 2 5 0 q1 -13 0 -24 Z"/><path d="M37 43 q-3 12 -2 22 q2 2 4 0 q0 -11 0 -22 Z"/><path d="M69 40 q3 13 1 25 q-3 2 -5 0 q-1 -13 0 -24 Z"/><path d="M63 43 q3 12 2 22 q-2 2 -4 0 q0 -11 0 -22 Z"/></g>`;
       break;
-    case "long":
+    case "cornrows":  // braided lines running front-to-back
+      hairShape = `
+        <path d="M32 44 Q32 29 50 29 Q68 29 68 44 Q60 39 50 39 Q40 39 32 44 Z" fill="${h}"/>
+        <g stroke="rgba(0,0,0,.30)" stroke-width="1.1" fill="none" stroke-linecap="round"><path d="M40 41 Q40 32 44 29.5"/><path d="M46 40 Q46 31 48 29"/><path d="M50 40 L50 29"/><path d="M54 40 Q54 31 52 29"/><path d="M60 41 Q60 32 56 29.5"/></g>`;
+      break;
+
+    /* --- long / tied family --- */
+    case "long":      // shoulder-length, frames the sides
       hairShape = `<path d="M30 44 Q30 27 50 27 Q70 27 70 44 L70 66 Q67 60 65 56 Q66 46 60 42 Q55 38 50 38 Q45 38 40 42 Q34 46 35 56 Q33 60 30 66 Z" fill="${h}"/>`;
       break;
-    case "bun":
+    case "flow":      // medium, centre-parted
+      hairShape = `
+        <path d="M30 46 Q29 29 50 28 Q71 29 70 46 L69 53 Q66 47 62 45 Q63 40 57 39 Q53 36 50 38 Q47 36 43 39 Q37 40 38 45 Q34 47 31 53 Z" fill="${h}"/>
+        <path d="M50 30 L50 38" stroke="rgba(0,0,0,.20)" stroke-width="1.1" stroke-linecap="round"/>`;
+      break;
+    case "bun":       // slicked + small top bun
       hairShape = `
         <path d="M31 45 Q31 30 50 30 Q69 30 69 45 L69 46 Q62 40 50 40 Q38 40 31 46 Z" fill="${h}"/>
         <ellipse cx="50" cy="25" rx="6.5" ry="6" fill="${h}"/>`;
       break;
-    case "bald":
-      hairShape = ``;
+    case "ponytail":  // slicked back + a tail hanging behind
+      hairShape = `
+        <path d="M32 44 Q32 30 50 30 Q68 30 68 44 L68 45 Q60 40 50 40 Q40 40 32 45 Z" fill="${h}"/>
+        <path d="M65 33 q9 7 7 21 q-1 5 -4 5 q-2 -1 -1 -4 q3 -10 -6 -18 Z" fill="${h}"/>`;
       break;
-    case "afro":
-      hairShape = `<path d="M24 48 a26 24 0 1 1 52 0 q-8 -9 -26 -9 q-18 0 -26 9 Z" fill="${h}"/>`;
+    case "topknot":   // shaved sides + a top knot
+      hairShape = `
+        <path d="M41 43 Q41 33 50 33 Q59 33 59 43 Q55 39 50 39 Q45 39 41 43 Z" fill="${h}"/>
+        <ellipse cx="50" cy="28" rx="5.4" ry="4.8" fill="${h}"/>`;
       break;
-    case "mohawk":
+
+    /* --- strips / special --- */
+    case "mohawk":    // centre strip, shaved sides
       hairShape = `<path d="M44 44 Q44 25 50 24 Q56 25 56 44 Q53 39 50 39 Q47 39 44 44 Z" fill="${h}"/>`;
+      break;
+    case "fauxhawk":  // raised centre, faded (not shaved) sides
+      hairShape = `<path d="M40 43 Q41 34 46 32 Q47 26 50 26 Q53 26 54 32 Q59 34 60 43 Q55 38 50 38 Q45 38 40 43 Z" fill="${h}"/>`;
+      break;
+    case "mullet":    // short top + length at the nape
+      hairShape = `
+        <path d="M32 43 Q32 29 50 29 Q68 29 68 43 Q60 38 50 38 Q40 38 32 43 Z" fill="${h}"/>
+        <path d="M34 44 Q31 55 37 63 Q40 59 40 50 Z" fill="${h}"/><path d="M66 44 Q69 55 63 63 Q60 59 60 50 Z" fill="${h}"/>`;
+      break;
+    case "headband":  // hair + a band across the forehead
+      hairShape = `
+        <path d="M31 44 Q31 29 50 29 Q69 29 69 44 Q60 39 50 39 Q40 39 31 44 Z" fill="${h}"/>
+        <rect x="30.5" y="40.3" width="39" height="3.8" rx="1.4" fill="#222"/><rect x="30.5" y="40.6" width="39" height="0.9" fill="rgba(255,255,255,.18)"/>`;
+      break;
+    case "bald":      // none
+      hairShape = ``;
       break;
   }
   return `
