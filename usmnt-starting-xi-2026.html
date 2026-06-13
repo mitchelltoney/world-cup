@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USMNT Starting XI — World Cup 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0b1530;
+    --night-2:#101d40;
+    --pitch-a:#2c7a3b;
+    --pitch-b:#2f8341;
+    --chalk:rgba(255,255,255,.85);
+    --usa-red:#c9243f;
+    --usa-blue:#1f3a93;
+    --gold:#f2c14e;
+    --ink:#f4f6fb;
+    --muted:#9aa6c4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Barlow',system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #1b2c5e 0%, transparent 60%),
+      var(--night);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 16px 56px}
+
+  header{margin-bottom:22px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .eyebrow .flag{display:inline-block;width:20px;height:13px;border-radius:2px;overflow:hidden;
+    background:linear-gradient(180deg,#c9243f 0,#c9243f 20%,#fff 20%,#fff 40%,#c9243f 40%,#c9243f 60%,#fff 60%,#fff 80%,#c9243f 80%);
+    position:relative}
+  .eyebrow .flag::after{content:"";position:absolute;left:0;top:0;width:45%;height:55%;background:#1f3a93}
+  h1{
+    font-family:'Anton',sans-serif;font-size:clamp(34px,6vw,58px);
+    line-height:1.02;letter-spacing:.01em;text-transform:uppercase;margin-top:6px;
+  }
+  h1 .red{color:var(--usa-red)}
+  .sub{color:var(--muted);font-size:14px;margin-top:8px;font-weight:500}
+  .sub b{color:var(--ink)}
+
+  .layout{display:grid;grid-template-columns:minmax(300px,440px) 1fr;gap:26px;align-items:start}
+
+  /* ---------- PITCH ---------- */
+  .pitch-frame{position:relative;border-radius:14px;padding:10px;
+    background:linear-gradient(180deg,#0e1b3e,#0a142e);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.06)}
+  .pitch{
+    position:relative;width:100%;aspect-ratio:2/3;border-radius:8px;overflow:hidden;
+    background:repeating-linear-gradient(180deg,
+      var(--pitch-a) 0, var(--pitch-a) 8.5%,
+      var(--pitch-b) 8.5%, var(--pitch-b) 17%);
+    box-shadow:inset 0 0 60px rgba(0,0,0,.35);
+  }
+  .line{position:absolute;background:var(--chalk)}
+  .pitch .border-line{inset:3.5%;border:2px solid var(--chalk);background:none;position:absolute}
+  .halfway{left:3.5%;right:3.5%;top:50%;height:2px}
+  .center-circle{left:50%;top:50%;width:26%;aspect-ratio:1;border:2px solid var(--chalk);
+    border-radius:50%;transform:translate(-50%,-50%);background:none;position:absolute}
+  .center-spot{left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%)}
+  .box-18{left:24%;width:52%;height:16%;border:2px solid var(--chalk);background:none;position:absolute}
+  .box-18.bottom{bottom:3.5%;border-bottom:none}
+  .box-18.top{top:3.5%;border-top:none}
+  .box-6{left:37%;width:26%;height:6.5%;border:2px solid var(--chalk);background:none;position:absolute}
+  .box-6.bottom{bottom:3.5%;border-bottom:none}
+  .box-6.top{top:3.5%;border-top:none}
+  .pen-spot{left:50%;width:6px;height:6px;border-radius:50%}
+  .pen-spot.bottom{bottom:14.5%;transform:translateX(-50%)}
+  .pen-spot.top{top:14.5%;transform:translateX(-50%)}
+  .arc{left:50%;width:18%;aspect-ratio:2/1;border:2px solid var(--chalk);background:none;position:absolute}
+  .arc.bottom{bottom:19.5%;transform:translateX(-50%);border-radius:120px 120px 0 0;border-bottom:none}
+  .arc.top{top:19.5%;transform:translateX(-50%);border-radius:0 0 120px 120px;border-top:none}
+
+  /* ---------- PLAYERS ---------- */
+  .player{
+    position:absolute;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    background:none;border:none;cursor:pointer;padding:0;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .15s ease;
+  }
+  .player:hover{transform:translate(-50%,-50%) scale(1.07)}
+  .player:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:12px}
+  .avatar{
+    position:relative;width:56px;height:56px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
+    box-shadow:0 6px 14px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);
+    display:grid;place-items:center;overflow:hidden;
+  }
+  .player.active .avatar{box-shadow:0 0 0 3px var(--gold), 0 6px 16px rgba(0,0,0,.5)}
+  .avatar svg{width:100%;height:100%;display:block}
+  .badge{
+    position:absolute;top:-6px;left:-8px;z-index:2;
+    font-family:'Anton',sans-serif;font-size:13px;line-height:1;
+    background:var(--usa-blue);color:#fff;border:2px solid #fff;
+    min-width:24px;padding:4px 4px 3px;text-align:center;border-radius:7px;
+    box-shadow:0 3px 6px rgba(0,0,0,.4);
+  }
+  .rating{
+    position:absolute;bottom:-6px;right:-10px;z-index:2;
+    font-weight:700;font-size:11.5px;line-height:1;
+    background:var(--gold);color:#231a05;border:2px solid #fff;
+    padding:3px 5px;border-radius:8px;box-shadow:0 3px 6px rgba(0,0,0,.4);
+  }
+  .pname{
+    margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff;
+    background:rgba(7,13,32,.78);padding:2px 7px;border-radius:6px;white-space:nowrap;
+    text-shadow:0 1px 2px rgba(0,0,0,.6);
+  }
+  .player-wrap{position:relative}
+
+  /* ---------- DETAIL PANEL ---------- */
+  .panel{
+    position:sticky;top:18px;border-radius:14px;overflow:hidden;
+    background:linear-gradient(165deg,var(--night-2),#0c1734 70%);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.07);
+    min-height:380px;
+  }
+  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--usa-blue) 0 34%,#fff 34% 66%,var(--usa-red) 66%)}
+  .panel-inner{padding:24px 26px 28px}
+  .panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:10px;min-height:340px;color:var(--muted)}
+  .panel-empty .hint-num{font-family:'Anton',sans-serif;font-size:64px;color:rgba(255,255,255,.08);line-height:1}
+  .panel-empty p{max-width:280px;font-size:14px;line-height:1.5}
+
+  .ph-row{display:flex;align-items:center;gap:18px;margin-bottom:6px}
+  .ph-avatar{width:84px;height:84px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
+    box-shadow:0 8px 18px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);overflow:hidden}
+  .ph-avatar svg{width:100%;height:100%}
+  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--usa-red)}
+  .ph-name{font-family:'Anton',sans-serif;font-size:clamp(26px,3.4vw,36px);text-transform:uppercase;line-height:1.02}
+  .ph-name .num{color:var(--muted);font-size:.72em;margin-left:8px}
+  .ph-club{color:var(--muted);font-size:13.5px;font-weight:600;margin-top:3px}
+
+  .rating-line{display:flex;align-items:center;gap:14px;margin:16px 0 18px}
+  .rating-big{font-family:'Anton',sans-serif;font-size:34px;color:var(--gold);line-height:1}
+  .rating-big small{font-size:15px;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:600}
+  .rating-bar{flex:1;height:10px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
+  .rating-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b88a1f,var(--gold));
+    transition:width .45s cubic-bezier(.2,.8,.2,1)}
+
+  .sect{margin-top:16px}
+  .sect h3{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px}
+  .sect p{font-size:14.5px;line-height:1.6;color:#dfe5f4}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+  .chip{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;
+    background:rgba(31,58,147,.35);border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
+
+  footer{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6;max-width:640px}
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    .panel{position:static;min-height:0}
+    .panel-empty{min-height:140px}
+    .avatar{width:46px;height:46px}
+    .pname{font-size:10px}
+    .badge{font-size:11px;min-width:20px;top:-5px;left:-7px}
+    .rating{font-size:10px;bottom:-5px;right:-8px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .player,.rating-fill{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow"><span class="flag" aria-hidden="true"></span>FIFA World Cup 2026 · Group D · vs Paraguay</span>
+    <h1>USA <span class="red">Starting XI</span></h1>
+    <p class="sub">Pochettino's <b>4-2-3-1</b> for the tournament opener · gold chip = consensus quality rating out of 10 · tap a player for the scouting card</p>
+  </header>
+
+  <div class="layout">
+    <div class="pitch-frame">
+      <div class="pitch" id="pitch" aria-label="Soccer pitch with USA starting eleven">
+        <div class="border-line"></div>
+        <div class="line halfway"></div>
+        <div class="center-circle"></div>
+        <div class="line center-spot"></div>
+        <div class="box-18 bottom"></div>
+        <div class="box-6 bottom"></div>
+        <div class="line pen-spot bottom"></div>
+        <div class="arc bottom"></div>
+        <div class="box-18 top"></div>
+        <div class="box-6 top"></div>
+        <div class="line pen-spot top"></div>
+        <div class="arc top"></div>
+      </div>
+    </div>
+
+    <aside class="panel" id="panel" aria-live="polite">
+      <div class="panel-stripe"></div>
+      <div class="panel-inner panel-empty" id="panelContent">
+        <div class="hint-num">XI</div>
+        <p>Select any player on the pitch to see what kind of player he is, what he's known for, and where he hurts opponents.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    Lineup as named for the June 12, 2026 opener at Los Angeles Stadium. Ratings are an editorial blend of club level, current form, and international standing — argue accordingly.
+  </footer>
+</div>
+
+<script>
+/* ---- Avatar drawing: minimal head, uniform body, skin + hair only ---- */
+function avatarSVG(p){
+  const s = p.skin, h = p.hair;
+  let hairShape = "";
+  // Head: ellipse cx=50 cy=50 rx=19 ry=21 → top of skull ≈ y=29, brow ≈ y=42
+  switch(p.style){
+    case "short": // close-cropped cap covering the skull down to the brow
+      hairShape = `<path d="M31 44 Q31 27 50 27 Q69 27 69 44 L69 46 Q62 38 50 38 Q38 38 31 46 Z" fill="${h}"/>`;
+      break;
+    case "buzz": // very short, receding at the temples
+      hairShape = `<path d="M34 42 Q35 29 50 29 Q65 29 66 42 L66 43 Q60 35 50 35 Q40 35 34 43 Z" fill="${h}" opacity="0.9"/>`;
+      break;
+    case "curls": // bumpy curly cap
+      hairShape = `<path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>`;
+      break;
+    case "curlsBlond": // curly cap with blond-dyed top (McKennie)
+      hairShape = `
+        <path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>
+        <path d="M36 33 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 l-2 6 q-6 -5 -12 -5 q-6 0 -9 3 Z" fill="#d9a441"/>`;
+      break;
+    case "twists": // short twists/locs sitting on a low cap
+      hairShape = `
+        <path d="M32 44 Q33 30 50 30 Q67 30 68 44 L68 45 Q61 37 50 37 Q39 37 32 45 Z" fill="${h}"/>
+        <circle cx="37" cy="34" r="4.6" fill="${h}"/><circle cx="45" cy="29.5" r="4.8" fill="${h}"/>
+        <circle cx="54" cy="29" r="4.8" fill="${h}"/><circle cx="62" cy="32.5" r="4.6" fill="${h}"/>
+        <circle cx="33" cy="40" r="4" fill="${h}"/><circle cx="67" cy="39" r="4" fill="${h}"/>`;
+      break;
+    case "waves": // tight cropped hair with a crisp straight hairline
+      hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/>`;
+      break;
+  }
+  return `
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name} avatar">
+    <!-- uniform: white shirt, blue collar -->
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 Z" fill="#ffffff"/>
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 l-8 0 q-4 -20 -24 -20 q-20 0 -24 20 Z" fill="#1f3a93"/>
+    <path d="M44 76 l6 7 l6 -7 Z" fill="#c9243f"/>
+    <!-- neck -->
+    <rect x="44" y="62" width="12" height="14" rx="5" fill="${s}"/>
+    <!-- head -->
+    <ellipse cx="50" cy="50" rx="19" ry="21" fill="${s}"/>
+    <!-- ears -->
+    <circle cx="31.5" cy="52" r="3.6" fill="${s}"/><circle cx="68.5" cy="52" r="3.6" fill="${s}"/>
+    ${hairShape}
+  </svg>`;
+}
+
+/* ---- Squad data ---- */
+const PLAYERS = [
+  {id:"freese", name:"Freese", full:"Matt Freese", num:24, pos:"Goalkeeper", club:"New York City FC", rating:6.7,
+   x:50, y:90, skin:"#e9b98e", hair:"#5b3a24", style:"short",
+   type:"A reflex-first shot-stopper who plays with the calm of a former Ivy League captain — comfortable with the ball at his feet in Pochettino's build-up.",
+   known:"Winning the No. 1 shirt late in the cycle and his penalty-shootout heroics for the U.S. in the 2025 Gold Cup.",
+   strengths:["Reflex saves","Penalty situations","Distribution","Composure"]},
+  {id:"freeman", name:"Freeman", full:"Alex Freeman", num:16, pos:"Right Back", club:"Villarreal", rating:6.9,
+   x:82, y:71, skin:"#6f4428", hair:"#171008", style:"waves",
+   type:"A big, rangy modern fullback — the son of an NFL receiver, and it shows in his stride. Overlaps relentlessly and defends with raw athletic power.",
+   known:"His meteoric rise: MLS breakout to a La Liga move to a World Cup start, all inside two years, still only 21.",
+   strengths:["Recovery speed","Physicality","Overlapping runs","Upside"]},
+  {id:"richards", name:"Richards", full:"Chris Richards", num:3, pos:"Centre Back", club:"Crystal Palace", rating:7.8,
+   x:65, y:76, skin:"#7a4a2b", hair:"#15100c", style:"twists",
+   type:"The defensive cornerstone — an athletic, front-foot centre back who wins his duels in the air and steps into midfield with the ball.",
+   known:"FA Cup-winning seasons at Palace and scoring big tournament goals for the U.S., including towering set-piece headers.",
+   strengths:["Aerial duels","Pace for a CB","Ball progression","Big-game temperament"]},
+  {id:"ream", name:"Ream (C)", full:"Tim Ream", num:13, pos:"Centre Back · Captain", club:"Charlotte FC", rating:7.0,
+   x:35, y:76, skin:"#e9b98e", hair:"#7a5a3c", style:"buzz",
+   type:"The 38-year-old brain of the back line — a left-footed organizer who defends with positioning and reads the game two passes early.",
+   known:"Remarkable longevity: a Premier League mainstay at Fulham deep into his 30s, now captaining the U.S. at a home World Cup.",
+   strengths:["Reading the game","Left-footed passing","Leadership","Composure under press"]},
+  {id:"robinson", name:"Robinson", full:"Antonee Robinson", num:5, pos:"Left Back", club:"Fulham", rating:8.4,
+   x:18, y:71, skin:"#8a5a35", hair:"#15100c", style:"curls",
+   type:"\"Jedi\" — arguably the best attacking left back in the Premier League. A vertical sprinter who turns defense into attack in three touches.",
+   known:"Leading Premier League fullbacks in assists and his absurd recovery pace; back to full flight after a knee cleanup.",
+   strengths:["Elite speed","Crossing & assists","1v1 defending","Engine"]},
+  {id:"adams", name:"Adams", full:"Tyler Adams", num:4, pos:"Defensive Midfield", club:"Bournemouth", rating:7.9,
+   x:38, y:57, skin:"#9c6b40", hair:"#1a120a", style:"curls",
+   type:"The destroyer and emotional reference point. A swarming ball-winner who covers ground like two players and sets the press's tempo.",
+   known:"Captaining the U.S. at Qatar 2022 at age 23 and being the engine room of Bournemouth's high-press machine.",
+   strengths:["Tackling","Pressing intensity","Ground coverage","Leadership"]},
+  {id:"mckennie", name:"McKennie", full:"Weston McKennie", num:8, pos:"Central Midfield", club:"Juventus", rating:8.0,
+   x:63, y:55, skin:"#6f4428", hair:"#171008", style:"curlsBlond",
+   type:"A chaos-positive box-to-box midfielder. Late runs into the area, monster aerial presence, and the versatility to play four positions.",
+   known:"Surviving every Juventus rebuild on sheer usefulness — and his trademark dyed curls and big-moment goals for the U.S.",
+   strengths:["Aerial threat","Late box arrivals","Versatility","Two-way motor"]},
+  {id:"dest", name:"Dest", full:"Sergiño Dest", num:2, pos:"Right Attacking Mid", club:"PSV Eindhoven", rating:7.6,
+   x:81, y:37, skin:"#a06a3e", hair:"#171008", style:"curls",
+   type:"A fullback by trade pushed high as an inverted winger-creator — pure flair, tight-space dribbling, and audacious technique on either foot.",
+   known:"His Barcelona pedigree, title-winning seasons at PSV, and being the most press-resistant dribbler in the U.S. pool.",
+   strengths:["1v1 dribbling","Press resistance","Two-footed","Final-third creativity"]},
+  {id:"tillman", name:"Tillman", full:"Malik Tillman", num:17, pos:"Attacking Midfield", club:"Bayer Leverkusen", rating:8.2,
+   x:50, y:39, skin:"#8a5a35", hair:"#15100c", style:"curls",
+   type:"The silk between the lines. A tall, gliding No. 10 who receives on the half-turn, slips defenders with feints, and arrives for goals himself.",
+   known:"His breakout — MVP-level Eredivisie season at PSV, a big-money Bundesliga move, and becoming the U.S.'s creative hub.",
+   strengths:["Between-the-lines receiving","Ball-striking","Goal threat from 10","Press resistance"]},
+  {id:"pulisic", name:"Pulisic", full:"Christian Pulisic", num:10, pos:"Left Wing", club:"AC Milan", rating:9.0,
+   x:19, y:35, skin:"#ecc096", hair:"#6b4a2e", style:"short",
+   type:"Captain America. The face of American soccer — an explosive left winger who attacks the half-space, beats his man, and produces in the biggest moments.",
+   known:"Career-best goal numbers at Milan, the goal-and-injury heroics vs Iran in 2022, and carrying U.S. hopes for a decade.",
+   strengths:["Explosive first step","Cutting inside to finish","Big-game scoring","Set pieces"]},
+  {id:"balogun", name:"Balogun", full:"Folarin Balogun", num:20, pos:"Striker", club:"AS Monaco", rating:7.5,
+   x:50, y:19, skin:"#5f3a20", hair:"#15100c", style:"waves",
+   type:"A penalty-box predator. Sharp shoulder-checks, darting runs across the front post, and a clean, early strike with either phase of play.",
+   known:"Choosing the U.S. over England after his 20-goal Ligue 1 breakout at Reims — the most natural finisher in the pool.",
+   strengths:["Movement off the shoulder","Clinical finishing","Channel runs","Pressing from the front"]}
+];
+
+const pitch = document.getElementById("pitch");
+const panelContent = document.getElementById("panelContent");
+let activeBtn = null;
+
+PLAYERS.forEach(p=>{
+  const btn = document.createElement("button");
+  btn.className = "player";
+  btn.style.left = p.x + "%";
+  btn.style.top = p.y + "%";
+  btn.setAttribute("aria-label", `${p.full}, number ${p.num}, ${p.pos}, rated ${p.rating} out of 10`);
+  btn.innerHTML = `
+    <span class="player-wrap">
+      <span class="badge">${p.num}</span>
+      <span class="avatar">${avatarSVG(p)}</span>
+      <span class="rating">${p.rating.toFixed(1)}</span>
+    </span>
+    <span class="pname">${p.name}</span>`;
+  btn.addEventListener("click", ()=> select(p, btn));
+  pitch.appendChild(btn);
+});
+
+function select(p, btn){
+  if(activeBtn) activeBtn.classList.remove("active");
+  btn.classList.add("active");
+  activeBtn = btn;
+  panelContent.classList.remove("panel-empty");
+  panelContent.innerHTML = `
+    <div class="ph-row">
+      <div class="ph-avatar">${avatarSVG(p)}</div>
+      <div>
+        <div class="ph-kicker">${p.pos}</div>
+        <div class="ph-name">${p.full}<span class="num">#${p.num}</span></div>
+        <div class="ph-club">${p.club}</div>
+      </div>
+    </div>
+    <div class="rating-line">
+      <div class="rating-big">${p.rating.toFixed(1)}<small> / 10</small></div>
+      <div class="rating-bar"><div class="rating-fill" style="width:0%"></div></div>
+    </div>
+    <div class="sect"><h3>What kind of player</h3><p>${p.type}</p></div>
+    <div class="sect"><h3>Known for</h3><p>${p.known}</p></div>
+    <div class="sect"><h3>Strengths</h3>
+      <div class="chips">${p.strengths.map(s=>`<span class="chip">${s}</span>`).join("")}</div>
+    </div>`;
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    panelContent.querySelector(".rating-fill").style.width = (p.rating*10) + "%";
+  });});
+  if(window.matchMedia("(max-width:760px)").matches){
+    document.getElementById("panel").scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+}
+</script>
+</body>
+</html>
