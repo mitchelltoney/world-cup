@@ -1,0 +1,133 @@
+/* ============================================================================
+   CROATIA — team config + squad data. See data/usa.js for the field guide.
+   ========================================================================== */
+window.TEAMS = window.TEAMS || {};
+window.TEAMS.croatia = {
+  id: "croatia",
+  name: "CROATIA",
+  manager: "Dalić",
+  headlineAccent: "Starting XI",
+  context: "FIFA World Cup 2026 · Group Stage",
+  formation: "4-3-3",
+  ratingNote: "gold chip = consensus quality rating out of 10",
+  hintCorner: "XI",
+  footer: "Projected first-choice XI for the 2026 World Cup; Dalić rotates the lineup by opponent and fitness. Ratings are an editorial blend of club level, current form, and international standing — argue accordingly.",
+  theme: {
+    primary:   "#c8102e",  /* badge / kit (Croatia red)   */
+    secondary: "#2f57b5",  /* headline accent (flag blue) */
+    accent:    "#f2c14e",  /* rating gold */
+    kitBody:   "#d11e2a",
+    kitCollar: "#ffffff",
+    kitV:      "#1d3faa"
+  },
+  stripe: ["#c8102e", "#ffffff", "#1d3faa"],
+  /* Simplified red/white šahovnica checkerboard. */
+  flag: `<svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <rect width="30" height="20" fill="#fff"/>
+    <g fill="#d11e2a">
+      <rect x="0" y="0" width="6" height="6.67"/><rect x="12" y="0" width="6" height="6.67"/><rect x="24" y="0" width="6" height="6.67"/>
+      <rect x="6" y="6.67" width="6" height="6.66"/><rect x="18" y="6.67" width="6" height="6.66"/>
+      <rect x="0" y="13.33" width="6" height="6.67"/><rect x="12" y="13.33" width="6" height="6.67"/><rect x="24" y="13.33" width="6" height="6.67"/>
+    </g></svg>`,
+
+  players: [
+    {id:"livakovic", name:"Livaković", full:"Dominik Livaković", num:1, pos:"Goalkeeper", club:"Girona", rating:7.4,
+     x:50, y:90, skin:"#ecc096", hair:"#15100c", style:"short",
+     type:"A shootout specialist and reliable shot-stopper who rises to the big occasion.",
+     known:"His three saved penalties to beat Japan at the 2022 World Cup.",
+     strengths:["Penalty shootouts","Shot-stopping","Reflexes","Big-game nerve"]},
+    {id:"stanisic", name:"Stanišić", full:"Josip Stanišić", num:18, pos:"Right Back", club:"Bayern Munich", rating:7.3,
+     x:84, y:73, skin:"#ecc096", hair:"#5b3a24", style:"short",
+     type:"A versatile, dependable full back comfortable on either flank for a European giant.",
+     known:"His trophy-winning role at Bayern Munich.",
+     strengths:["Versatility","Defending","Composure","Positioning"]},
+    {id:"sutalo", name:"Šutalo", full:"Joško Šutalo", num:5, pos:"Centre Back", club:"Ajax", rating:7.0,
+     x:63, y:76, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A composed young centre back who defends with positioning and brings the ball out cleanly.",
+     known:"His regular minutes anchoring Ajax's defence.",
+     strengths:["Positioning","Ball-playing","Composure","Reading the game"]},
+    {id:"pongracic", name:"Pongračić", full:"Marin Pongračić", num:21, pos:"Centre Back", club:"Fiorentina", rating:7.0,
+     x:37, y:76, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A big, aggressive centre back who dominates the air and steps out to win the ball.",
+     known:"His physical Serie A defending for Fiorentina.",
+     strengths:["Aerial duels","Strength","Aggression","Blocks"]},
+    {id:"gvardiol", name:"Gvardiol", full:"Joško Gvardiol", num:20, pos:"Left Back", club:"Manchester City", rating:8.4,
+     x:16, y:73, skin:"#ecc096", hair:"#2a1a0e", style:"bun",
+     type:"A world-class defender deployed at left back — elite recovery pace, power, and the ball-carrying of a modern full back.",
+     known:"His standout form and goals for treble-era Manchester City.",
+     strengths:["Pace","Ball-carrying","Strength","Left foot"]},
+    {id:"kovacic", name:"Kovačić", full:"Mateo Kovačić", num:8, pos:"Defensive Midfield", club:"Manchester City", rating:8.0,
+     x:50, y:57, skin:"#ecc096", hair:"#15100c", style:"buzz",
+     type:"A silky, press-resistant deep midfielder who glides past pressure and dictates from the base.",
+     known:"His Champions League pedigree and role as City's deep playmaker.",
+     strengths:["Press resistance","Carrying","Passing","Composure"]},
+    {id:"modric", name:"Modrić (C)", full:"Luka Modrić", num:10, pos:"Central Midfield · Captain", club:"AC Milan", rating:8.3,
+     x:68, y:52, skin:"#f2cfa6", hair:"#caa24a", style:"long",
+     type:"The captain and maestro — even at 40, peerless vision, weight of pass, and a will to drag Croatia through another tournament.",
+     known:"A Ballon d'Or winner and the greatest player in Croatian history.",
+     strengths:["Vision","Passing range","Set pieces","Leadership"]},
+    {id:"pasalic", name:"Pašalić", full:"Mario Pašalić", num:15, pos:"Central Midfield", club:"Atalanta", rating:7.4,
+     x:32, y:52, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A late-arriving, goal-scoring midfielder who times runs into the box superbly.",
+     known:"His consistent goals from midfield for Atalanta.",
+     strengths:["Box arrivals","Aerial threat","Finishing","Versatility"]},
+    {id:"baturina", name:"Baturina", full:"Martin Baturina", num:11, pos:"Right Wing", club:"Como", rating:7.3,
+     x:82, y:28, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A creative, technical young attacker who carries the ball and unlocks defences.",
+     known:"His breakout earning a move to Serie A.",
+     strengths:["Dribbling","Creativity","Tight control","Vision"]},
+    {id:"budimir", name:"Budimir", full:"Ante Budimir", num:17, pos:"Striker", club:"Osasuna", rating:7.2,
+     x:50, y:20, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A strong, aerially dominant centre-forward who leads the line and finishes inside the box.",
+     known:"His prolific La Liga scoring for Osasuna.",
+     strengths:["Aerial threat","Finishing","Hold-up play","Strength"]},
+    {id:"kramaric", name:"Kramarić", full:"Andrej Kramarić", num:9, pos:"Left Wing", club:"Hoffenheim", rating:7.6,
+     x:18, y:28, skin:"#ecc096", hair:"#5b3a24", style:"short",
+     type:"A clever, two-footed forward who drifts inside to score and create with cool finishing.",
+     known:"His status as Hoffenheim's all-time top scorer and Croatia's reliable goal threat.",
+     strengths:["Finishing","Movement","Two-footed","Creativity"]}
+  ],
+
+  depth: [
+    {id:"kotarski", name:"Kotarski", full:"Dominik Kotarski", num:12, pos:"Goalkeeper", club:"PAOK", rating:6.8,
+     x:50, y:90, skin:"#ecc096", hair:"#5b3a24", style:"short",
+     type:"A capable, ball-playing deputy keeper.",
+     known:"His regular European football in goal for PAOK.",
+     strengths:["Distribution","Reflexes","Composure","Footwork"]},
+    {id:"juranovic", name:"Juranović", full:"Josip Juranović", num:22, pos:"Right Back", club:"Union Berlin", rating:7.1,
+     x:84, y:73, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"An attacking, energetic right back with a good cross.",
+     known:"His tournament displays and Bundesliga form.",
+     strengths:["Overlaps","Crossing","Engine","Defending"]},
+    {id:"erlic", name:"Erlić", full:"Martin Erlić", num:6, pos:"Centre Back", club:"Sassuolo", rating:6.9,
+     x:37, y:76, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A tall, steady centre back who defends his box and reads the game.",
+     known:"His dependable Serie A defending.",
+     strengths:["Positioning","Aerial duels","Blocks","Composure"]},
+    {id:"sosa", name:"Sosa", full:"Borna Sosa", num:3, pos:"Left Back", club:"Ajax", rating:7.0,
+     x:16, y:73, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"An attacking left back famous for the quality and volume of his crossing.",
+     known:"His elite delivery from the left flank.",
+     strengths:["Crossing","Set pieces","Overlaps","Left foot"]},
+    {id:"sucic", name:"Sučić", full:"Luka Sučić", num:14, pos:"Central Midfield", club:"Real Sociedad", rating:7.2,
+     x:50, y:57, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A press-resistant, two-footed young midfielder who carries and creates.",
+     known:"His emergence in La Liga as one of Croatia's next-gen midfielders.",
+     strengths:["Press resistance","Two-footed","Carrying","Vision"]},
+    {id:"vlasic", name:"Vlašić", full:"Nikola Vlašić", num:13, pos:"Attacking Midfield", club:"Torino", rating:7.1,
+     x:50, y:39, skin:"#ecc096", hair:"#5b3a24", style:"short",
+     type:"A creative, energetic attacking midfielder who links play and chips in with goals.",
+     known:"His consistent Serie A creativity for Torino.",
+     strengths:["Creativity","Energy","Link play","Finishing"]},
+    {id:"perisic", name:"Perišić", full:"Ivan Perišić", num:4, pos:"Winger", club:"Hajduk Split", rating:7.2,
+     x:18, y:28, skin:"#ecc096", hair:"#5b3a24", style:"short",
+     type:"A relentless, big-game wide forward whose engine and quality still deliver in tournaments.",
+     known:"His long record of decisive World Cup goals for Croatia.",
+     strengths:["Engine","Crossing","Finishing","Big-game nous"]},
+    {id:"matanovic", name:"Matanović", full:"Igor Matanović", num:19, pos:"Striker", club:"SC Freiburg", rating:6.9,
+     x:50, y:20, skin:"#ecc096", hair:"#2a1a0e", style:"short",
+     type:"A tall, mobile young striker who stretches defences and finishes chances.",
+     known:"His developing Bundesliga goal threat.",
+     strengths:["Movement","Finishing","Height","Pressing"]}
+  ]
+};
