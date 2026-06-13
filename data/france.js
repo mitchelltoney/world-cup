@@ -21,6 +21,7 @@ window.TEAMS.france = {
     kitCollar: "#ffffff",  /* avatar collar yoke                */
     kitV:      "#ef3340"   /* avatar neck V                     */
   },
+  stripe: ["#2436a8", "#ffffff", "#ef3340"],   /* panel stripe — flag order: blue / white / red */
   /* Vertical tricolour: bleu | blanc | rouge. */
   flag: `<svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <rect width="10" height="20" fill="#2436a8"/>

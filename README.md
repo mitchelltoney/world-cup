@@ -1,12 +1,13 @@
 # World Cup 2026 — Starting XI Board
 
-Interactive starting-XI cards for World Cup 2026 national teams. Pick a team from
+Interactive starting-XI cards for eight World Cup 2026 national teams — USA,
+France, Spain, Argentina, England, Portugal, Brazil and Germany. Pick a team from
 the always-on switcher to see its projected first-choice XI laid out on a pitch,
 tap any player for a scouting card (role, what they're known for, strengths), and
 read a 0–10 editorial rating for each player.
 
 **Live:** https://mitchelltoney.github.io/world-cup/
-Direct team links: [`#usa`](https://mitchelltoney.github.io/world-cup/#usa) · [`#france`](https://mitchelltoney.github.io/world-cup/#france)
+Direct team links: append a team hash to the URL — `#usa` · `#france` · `#spain` · `#argentina` · `#england` · `#portugal` · `#brazil` · `#germany`
 
 ## How it works
 

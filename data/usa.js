@@ -23,6 +23,7 @@ window.TEAMS.usa = {
     kitCollar: "#1f3a93",  /* avatar collar yoke                */
     kitV:      "#c9243f"   /* avatar neck V                     */
   },
+  stripe: ["#c9243f", "#ffffff", "#1f3a93"],   /* panel stripe — flag order: red / white / blue */
   /* Abstract CSS-free flag chip (inline SVG, stretched to fill its box). */
   flag: `<svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <rect width="30" height="20" fill="#fff"/>

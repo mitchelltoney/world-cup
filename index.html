@@ -161,7 +161,8 @@
   .rating-big{font-family:'Anton',sans-serif;font-size:34px;color:var(--accent);line-height:1}
   .rating-big small{font-size:15px;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:600}
   .rating-bar{flex:1;height:10px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
-  .rating-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b88a1f,var(--accent));
+  .rating-fill{height:100%;border-radius:6px;
+    background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, #000), var(--accent));
     transition:width .45s cubic-bezier(.2,.8,.2,1)}
 
   .sect{margin-top:16px}
@@ -231,6 +232,12 @@
 <!-- Team data (each file self-registers into window.TEAMS). Add new teams here. -->
 <script src="data/usa.js"></script>
 <script src="data/france.js"></script>
+<script src="data/spain.js"></script>
+<script src="data/argentina.js"></script>
+<script src="data/england.js"></script>
+<script src="data/portugal.js"></script>
+<script src="data/brazil.js"></script>
+<script src="data/germany.js"></script>
 
 <script>
 /* ===========================================================================
@@ -306,6 +313,13 @@ const pitch = document.getElementById("pitch");
 const panelContent = document.getElementById("panelContent");
 let activeTeamId = null, activeBtn = null;
 
+// Build a horizontal gradient of equal colour bars (used for the panel stripe).
+function barsGradient(cols){
+  const seg = 100 / cols.length;
+  const stops = cols.map((c,i)=> `${c} ${(i*seg).toFixed(3)}% ${((i+1)*seg).toFixed(3)}%`);
+  return `linear-gradient(90deg, ${stops.join(", ")})`;
+}
+
 function buildTeamBar(){
   const bar = document.getElementById("teamBar");
   const label = document.createElement("span");
@@ -330,6 +344,10 @@ function applyTeam(id){
   ROOT.style.setProperty("--secondary", t.theme.secondary);
   ROOT.style.setProperty("--accent",    t.theme.accent);
   KIT = {body:t.theme.kitBody, collar:t.theme.kitCollar, v:t.theme.kitV};
+  // Panel stripe = the team's flag colours as bars (each flag in its own order).
+  document.querySelector(".panel-stripe").style.background =
+    (t.stripe && t.stripe.length) ? barsGradient(t.stripe)
+    : "linear-gradient(90deg, var(--primary) 0 34%, #fff 34% 66%, var(--secondary) 66%)";
 
   // 2) header
   document.getElementById("flag").innerHTML = t.flag;
