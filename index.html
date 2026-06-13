@@ -136,7 +136,7 @@
   .player-wrap{position:relative}
 
   /* ---------- DETAIL PANEL ---------- */
-  .panel{position:sticky;top:18px;border-radius:14px;overflow:hidden;
+  .panel{position:relative;border-radius:14px;overflow:hidden;
     background:linear-gradient(165deg,var(--night-2),#0c1734 70%);
     box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.07);
     min-height:380px}
@@ -175,6 +175,32 @@
     border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
 
   footer{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6;max-width:640px}
+
+  /* ---------- BENCH (rotation options, fills the space under the panel) ---------- */
+  .side{display:flex;flex-direction:column;gap:18px}
+  .bench{border-radius:14px;padding:16px 18px 18px;
+    background:linear-gradient(165deg,rgba(16,29,64,.55),rgba(12,23,52,.55));
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+  .bench-title{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:12px}
+  .bench-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+  .bench-item{display:flex;align-items:center;gap:9px;cursor:pointer;width:100%;text-align:left;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:10px;
+    padding:6px 9px;color:var(--ink);-webkit-tap-highlight-color:transparent;
+    transition:background .15s ease,border-color .15s ease,transform .15s ease}
+  .bench-item:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+  .bench-item:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .bench-item.active{background:rgba(255,255,255,.08);
+    border-color:color-mix(in srgb,var(--accent) 70%, transparent)}
+  .bench-avatar{width:34px;height:34px;border-radius:50%;flex:none;overflow:hidden;
+    background:radial-gradient(circle at 35% 30%, #fff, #dfe5f2 70%);
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.9)}
+  .bench-avatar svg{width:100%;height:100%;display:block}
+  .bench-meta{min-width:0;display:flex;flex-direction:column;line-height:1.18}
+  .bench-name{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bench-pos{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .bench-rating{margin-left:auto;flex:none;font-weight:700;font-size:11px;color:#231a05;
+    background:var(--accent);border-radius:6px;padding:2px 6px}
 
   /* ---------- MOBILE ---------- */
   @media (max-width:760px){
@@ -220,10 +246,16 @@
       </div>
     </div>
 
-    <aside class="panel" id="panel" aria-live="polite">
-      <div class="panel-stripe"></div>
-      <div class="panel-inner panel-empty" id="panelContent"></div>
-    </aside>
+    <div class="side">
+      <aside class="panel" id="panel" aria-live="polite">
+        <div class="panel-stripe"></div>
+        <div class="panel-inner panel-empty" id="panelContent"></div>
+      </aside>
+      <section class="bench" id="bench" aria-label="Bench and rotation options">
+        <h3 class="bench-title">Bench · rotation options — tap to scout</h3>
+        <div class="bench-grid" id="benchGrid"></div>
+      </section>
+    </div>
   </div>
 
   <footer id="footer"></footer>
@@ -365,8 +397,9 @@ function applyTeam(id){
     b.setAttribute("aria-pressed", on ? "true" : "false");
   });
 
-  // 4) pitch + empty panel
+  // 4) pitch + bench + empty panel
   renderPitch(t);
+  renderBench(t);
   resetPanel(t);
 }
 
@@ -387,6 +420,38 @@ function renderPitch(t){
       <span class="pname">${p.name}</span>`;
     btn.addEventListener("click", ()=> select(p, btn));
     pitch.appendChild(btn);
+  });
+}
+
+// Short position label for the compact bench chips.
+function shortPos(pos){
+  const map = {"Goalkeeper":"GK","Right Back":"RB","Left Back":"LB","Centre Back":"CB",
+    "Defensive Midfield":"DM","Central Midfield":"CM","Attacking Midfield":"AM",
+    "Right Attacking Mid":"RW","Right Wing":"RW","Left Wing":"LW","Winger":"Wing",
+    "Striker":"ST","Forward":"FW"};
+  return map[(pos||"").split(" · ")[0]] || pos;
+}
+
+// Bench / rotation options — rendered under the panel, click opens the same card.
+function renderBench(t){
+  const bench = document.getElementById("bench");
+  const grid = document.getElementById("benchGrid");
+  grid.innerHTML = "";
+  const list = t.depth || [];
+  bench.style.display = list.length ? "" : "none";
+  list.forEach(p=>{
+    const btn = document.createElement("button");
+    btn.className = "bench-item"; btn.type = "button";
+    btn.setAttribute("aria-label", `${p.full}, ${p.pos}, rated ${p.rating} out of 10, bench option`);
+    btn.innerHTML = `
+      <span class="bench-avatar">${avatarSVG(p)}</span>
+      <span class="bench-meta">
+        <span class="bench-name">${p.name}</span>
+        <span class="bench-pos">${shortPos(p.pos)}</span>
+      </span>
+      <span class="bench-rating">${p.rating.toFixed(1)}</span>`;
+    btn.addEventListener("click", ()=> select(p, btn));
+    grid.appendChild(btn);
   });
 }
 
