@@ -474,7 +474,7 @@ function applyTeam(id){
   document.getElementById("ctx").textContent = t.context;
   document.getElementById("headline").innerHTML = `${t.name} <span class="accent">${t.headlineAccent}</span>`;
   document.getElementById("sub").innerHTML =
-    `${t.manager}'s <b>${t.formation}</b> first-choice XI · ${t.ratingNote} · tap a player for the scouting card`;
+    `${t.manager}'s <b>${t.formation}</b> first-choice XI · chip = current EA FC 26 overall · tap a player for the 0–10 scouting card`;
   document.getElementById("footer").textContent = t.footer;
   document.title = `${t.name} Starting XI — World Cup 2026`;
 
@@ -498,12 +498,12 @@ function renderPitch(t){
     const btn = document.createElement("button");
     btn.className = "player"; btn.type = "button";
     btn.style.left = p.x + "%"; btn.style.top = p.y + "%";
-    btn.setAttribute("aria-label", `${p.full}, number ${p.num}, ${p.pos}, rated ${p.rating} out of 10`);
+    btn.setAttribute("aria-label", `${p.full}, number ${p.num}, ${p.pos}, EA FC overall ${p.fifa}, scouting rating ${p.rating} out of 10`);
     btn.innerHTML = `
       <span class="player-wrap">
         <span class="badge">${p.num}</span>
         <span class="avatar">${avatarSVG(p)}</span>
-        <span class="rating">${p.rating.toFixed(1)}</span>
+        <span class="rating">${p.fifa}</span>
       </span>
       <span class="pname">${p.name}</span>`;
     btn.addEventListener("click", ()=> select(p, btn));
@@ -530,14 +530,14 @@ function renderBench(t){
   list.forEach(p=>{
     const btn = document.createElement("button");
     btn.className = "bench-item"; btn.type = "button";
-    btn.setAttribute("aria-label", `${p.full}, ${p.pos}, rated ${p.rating} out of 10, bench option`);
+    btn.setAttribute("aria-label", `${p.full}, ${p.pos}, EA FC overall ${p.fifa}, scouting rating ${p.rating} out of 10, bench option`);
     btn.innerHTML = `
       <span class="bench-avatar">${avatarSVG(p)}</span>
       <span class="bench-meta">
         <span class="bench-name">${p.name}</span>
         <span class="bench-pos">${shortPos(p.pos)}</span>
       </span>
-      <span class="bench-rating">${p.rating.toFixed(1)}</span>`;
+      <span class="bench-rating">${p.fifa}</span>`;
     btn.addEventListener("click", ()=> select(p, btn));
     grid.appendChild(btn);
   });
