@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  WORLD CUP 2026 — STARTING XI BOARD (multi-team)
+  ============================================================================
+  One engine, data-driven. Each team lives in its own file under data/ and
+  self-registers into window.TEAMS. The always-visible team bar switches teams
+  in place (re-themes via CSS variables) and updates the #hash for deep links.
+
+  TO ADD A TEAM:
+    1. Copy data/usa.js -> data/<id>.js, edit the data + theme + flag.
+    2. Add <script src="data/<id>.js"></script> below (with the others).
+  Nothing else to touch — the bar, pitch, panel and theming are all generic.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Starting XI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0b1530;
+    --night-2:#101d40;
+    --pitch-a:#2c7a3b;
+    --pitch-b:#2f8341;
+    --chalk:rgba(255,255,255,.85);
+    /* Per-team colours — overwritten by JS on team switch. */
+    --primary:#1f3a93;
+    --secondary:#c9243f;
+    --accent:#f2c14e;
+    --ink:#f4f6fb;
+    --muted:#9aa6c4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Barlow',system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #1b2c5e 0%, transparent 60%),
+      var(--night);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 16px 56px}
+
+  /* ---------- TEAM SWITCHER (always visible) ---------- */
+  .team-bar{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:20px}
+  .team-bar .bar-label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);margin-right:2px}
+  .team-pill{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
+    color:var(--ink);font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:.05em;text-transform:uppercase;padding:7px 14px 7px 8px;border-radius:999px;
+    transition:background .15s ease,border-color .15s ease,transform .15s ease;
+    -webkit-tap-highlight-color:transparent;}
+  .team-pill:hover{background:rgba(255,255,255,.10);transform:translateY(-1px)}
+  .team-pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .team-pill .pflag{width:22px;height:14px;border-radius:2px;overflow:hidden;flex:none;
+    box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+  .team-pill .pflag svg{display:block;width:100%;height:100%}
+  .team-pill.active{
+    background:color-mix(in srgb, var(--primary) 34%, rgba(255,255,255,.05));
+    border-color:color-mix(in srgb, var(--secondary) 70%, transparent);
+    box-shadow:0 6px 18px -10px rgba(0,0,0,.7)}
+
+  /* ---------- HEADER ---------- */
+  header{margin-bottom:22px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .eyebrow .flag{display:inline-block;width:20px;height:13px;border-radius:2px;overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+  .eyebrow .flag svg{display:block;width:100%;height:100%}
+  h1{font-family:'Anton',sans-serif;font-size:clamp(34px,6vw,58px);
+    line-height:1.02;letter-spacing:.01em;text-transform:uppercase;margin-top:6px}
+  h1 .accent{color:var(--secondary)}
+  .sub{color:var(--muted);font-size:14px;margin-top:8px;font-weight:500}
+  .sub b{color:var(--ink)}
+
+  .layout{display:grid;grid-template-columns:minmax(300px,440px) 1fr;gap:26px;align-items:start}
+
+  /* ---------- PITCH ---------- */
+  .pitch-frame{position:relative;border-radius:14px;padding:10px;
+    background:linear-gradient(180deg,#0e1b3e,#0a142e);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.06)}
+  .pitch{position:relative;width:100%;aspect-ratio:2/3;border-radius:8px;overflow:hidden;
+    background:repeating-linear-gradient(180deg,
+      var(--pitch-a) 0, var(--pitch-a) 8.5%,
+      var(--pitch-b) 8.5%, var(--pitch-b) 17%);
+    box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+  .line{position:absolute;background:var(--chalk)}
+  .pitch .border-line{inset:3.5%;border:2px solid var(--chalk);background:none;position:absolute}
+  .halfway{left:3.5%;right:3.5%;top:50%;height:2px}
+  .center-circle{left:50%;top:50%;width:26%;aspect-ratio:1;border:2px solid var(--chalk);
+    border-radius:50%;transform:translate(-50%,-50%);background:none;position:absolute}
+  .center-spot{left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%)}
+  .box-18{left:24%;width:52%;height:16%;border:2px solid var(--chalk);background:none;position:absolute}
+  .box-18.bottom{bottom:3.5%;border-bottom:none}
+  .box-18.top{top:3.5%;border-top:none}
+  .box-6{left:37%;width:26%;height:6.5%;border:2px solid var(--chalk);background:none;position:absolute}
+  .box-6.bottom{bottom:3.5%;border-bottom:none}
+  .box-6.top{top:3.5%;border-top:none}
+  .pen-spot{left:50%;width:6px;height:6px;border-radius:50%}
+  .pen-spot.bottom{bottom:14.5%;transform:translateX(-50%)}
+  .pen-spot.top{top:14.5%;transform:translateX(-50%)}
+  .arc{left:50%;width:18%;aspect-ratio:2/1;border:2px solid var(--chalk);background:none;position:absolute}
+  .arc.bottom{bottom:19.5%;transform:translateX(-50%);border-radius:120px 120px 0 0;border-bottom:none}
+  .arc.top{top:19.5%;transform:translateX(-50%);border-radius:0 0 120px 120px;border-top:none}
+
+  /* ---------- PLAYER TOKEN ---------- */
+  .player{position:absolute;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    background:none;border:none;cursor:pointer;padding:0;
+    -webkit-tap-highlight-color:transparent;transition:transform .15s ease}
+  .player:hover{transform:translate(-50%,-50%) scale(1.07)}
+  .player:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
+  .avatar{position:relative;width:56px;height:56px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
+    box-shadow:0 6px 14px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);
+    display:grid;place-items:center;overflow:hidden}
+  .player.active .avatar{box-shadow:0 0 0 3px var(--accent), 0 6px 16px rgba(0,0,0,.5)}
+  .avatar svg{width:100%;height:100%;display:block}
+  .badge{position:absolute;top:-6px;left:-8px;z-index:2;
+    font-family:'Anton',sans-serif;font-size:13px;line-height:1;
+    background:var(--primary);color:#fff;border:2px solid #fff;
+    min-width:24px;padding:4px 4px 3px;text-align:center;border-radius:7px;
+    box-shadow:0 3px 6px rgba(0,0,0,.4)}
+  .rating{position:absolute;bottom:-6px;right:-10px;z-index:2;
+    font-weight:700;font-size:11.5px;line-height:1;
+    background:var(--accent);color:#231a05;border:2px solid #fff;
+    padding:3px 5px;border-radius:8px;box-shadow:0 3px 6px rgba(0,0,0,.4)}
+  .pname{margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff;
+    background:rgba(7,13,32,.78);padding:2px 7px;border-radius:6px;white-space:nowrap;
+    text-shadow:0 1px 2px rgba(0,0,0,.6)}
+  .player-wrap{position:relative}
+
+  /* ---------- DETAIL PANEL ---------- */
+  .panel{position:sticky;top:18px;border-radius:14px;overflow:hidden;
+    background:linear-gradient(165deg,var(--night-2),#0c1734 70%);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.07);
+    min-height:380px}
+  .panel-stripe{height:5px;background:linear-gradient(90deg,var(--primary) 0 34%,#fff 34% 66%,var(--secondary) 66%)}
+  .panel-inner{padding:24px 26px 28px}
+  .panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:10px;min-height:340px;color:var(--muted)}
+  .panel-empty .hint-num{font-family:'Anton',sans-serif;font-size:64px;color:rgba(255,255,255,.08);line-height:1}
+  .panel-empty p{max-width:280px;font-size:14px;line-height:1.5}
+
+  .ph-row{display:flex;align-items:center;gap:18px;margin-bottom:6px}
+  .ph-avatar{width:84px;height:84px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 35% 30%, #ffffff, #dfe5f2 70%);
+    box-shadow:0 8px 18px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.9);overflow:hidden}
+  .ph-avatar svg{width:100%;height:100%}
+  .ph-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary)}
+  .ph-name{font-family:'Anton',sans-serif;font-size:clamp(26px,3.4vw,36px);text-transform:uppercase;line-height:1.02}
+  .ph-name .num{color:var(--muted);font-size:.72em;margin-left:8px}
+  .ph-club{color:var(--muted);font-size:13.5px;font-weight:600;margin-top:3px}
+
+  .rating-line{display:flex;align-items:center;gap:14px;margin:16px 0 18px}
+  .rating-big{font-family:'Anton',sans-serif;font-size:34px;color:var(--accent);line-height:1}
+  .rating-big small{font-size:15px;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:600}
+  .rating-bar{flex:1;height:10px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
+  .rating-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b88a1f,var(--accent));
+    transition:width .45s cubic-bezier(.2,.8,.2,1)}
+
+  .sect{margin-top:16px}
+  .sect h3{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px}
+  .sect p{font-size:14.5px;line-height:1.6;color:#dfe5f4}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+  .chip{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;
+    background:color-mix(in srgb, var(--primary) 35%, transparent);
+    border:1px solid rgba(120,150,230,.35);color:#cdd8f5}
+
+  footer{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6;max-width:640px}
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    .panel{position:static;min-height:0}
+    .panel-empty{min-height:140px}
+    .avatar{width:46px;height:46px}
+    .pname{font-size:10px}
+    .badge{font-size:11px;min-width:20px;top:-5px;left:-7px}
+    .rating{font-size:10px;bottom:-5px;right:-8px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .player,.rating-fill,.team-pill{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="team-bar" id="teamBar" aria-label="Select a team"></nav>
+
+  <header>
+    <span class="eyebrow"><span class="flag" id="flag" aria-hidden="true"></span><span id="ctx"></span></span>
+    <h1 id="headline"></h1>
+    <p class="sub" id="sub"></p>
+  </header>
+
+  <div class="layout">
+    <div class="pitch-frame">
+      <!-- Pitch geometry is static; player tokens are injected on team switch. -->
+      <div class="pitch" id="pitch" aria-label="Soccer pitch with the starting eleven">
+        <div class="border-line"></div>
+        <div class="line halfway"></div>
+        <div class="center-circle"></div>
+        <div class="line center-spot"></div>
+        <div class="box-18 bottom"></div>
+        <div class="box-6 bottom"></div>
+        <div class="line pen-spot bottom"></div>
+        <div class="arc bottom"></div>
+        <div class="box-18 top"></div>
+        <div class="box-6 top"></div>
+        <div class="line pen-spot top"></div>
+        <div class="arc top"></div>
+      </div>
+    </div>
+
+    <aside class="panel" id="panel" aria-live="polite">
+      <div class="panel-stripe"></div>
+      <div class="panel-inner panel-empty" id="panelContent"></div>
+    </aside>
+  </div>
+
+  <footer id="footer"></footer>
+</div>
+
+<!-- Team data (each file self-registers into window.TEAMS). Add new teams here. -->
+<script src="data/usa.js"></script>
+<script src="data/france.js"></script>
+
+<script>
+/* ===========================================================================
+   AVATAR — minimal flat head. Identity = skin tone + hair (colour+style) only.
+   Kit colours come from the active team (set in applyTeam). No facial features.
+   =========================================================================== */
+let KIT = {body:"#ffffff", collar:"#1f3a93", v:"#c9243f"};
+
+function avatarSVG(p){
+  const s = p.skin, h = p.hair;
+  let hairShape = "";
+  // Head: ellipse cx=50 cy=50 rx=19 ry=21 → crown ≈ y29, brow ≈ y42
+  switch(p.style){
+    case "short":
+      hairShape = `<path d="M31 44 Q31 27 50 27 Q69 27 69 44 L69 46 Q62 38 50 38 Q38 38 31 46 Z" fill="${h}"/>`;
+      break;
+    case "buzz":
+      hairShape = `<path d="M34 42 Q35 29 50 29 Q65 29 66 42 L66 43 Q60 35 50 35 Q40 35 34 43 Z" fill="${h}" opacity="0.9"/>`;
+      break;
+    case "curls":
+      hairShape = `<path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>`;
+      break;
+    case "curlsBlond":
+      hairShape = `
+        <path d="M31 45 q-2 -9 5 -12 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 q7 1 6 8 q5 4 3 10 q-7 -8 -19 -8 q-13 0 -20 8 Z" fill="${h}"/>
+        <path d="M36 33 q-1 -7 7 -7 q2 -5 9 -3 q7 -2 9 4 l-2 6 q-6 -5 -12 -5 q-6 0 -9 3 Z" fill="#d9a441"/>`;
+      break;
+    case "twists":
+      hairShape = `
+        <path d="M32 44 Q33 30 50 30 Q67 30 68 44 L68 45 Q61 37 50 37 Q39 37 32 45 Z" fill="${h}"/>
+        <circle cx="37" cy="34" r="4.6" fill="${h}"/><circle cx="45" cy="29.5" r="4.8" fill="${h}"/>
+        <circle cx="54" cy="29" r="4.8" fill="${h}"/><circle cx="62" cy="32.5" r="4.6" fill="${h}"/>
+        <circle cx="33" cy="40" r="4" fill="${h}"/><circle cx="67" cy="39" r="4" fill="${h}"/>`;
+      break;
+    case "waves":
+      hairShape = `<path d="M32 43 Q32 28 50 28 Q68 28 68 43 L68 44 L62 44 Q61 37 50 37 Q39 37 38 44 L32 44 Z" fill="${h}"/>`;
+      break;
+    case "long":
+      hairShape = `<path d="M30 44 Q30 27 50 27 Q70 27 70 44 L70 66 Q67 60 65 56 Q66 46 60 42 Q55 38 50 38 Q45 38 40 42 Q34 46 35 56 Q33 60 30 66 Z" fill="${h}"/>`;
+      break;
+    case "bun":
+      hairShape = `
+        <path d="M31 45 Q31 30 50 30 Q69 30 69 45 L69 46 Q62 40 50 40 Q38 40 31 46 Z" fill="${h}"/>
+        <ellipse cx="50" cy="25" rx="6.5" ry="6" fill="${h}"/>`;
+      break;
+    case "bald":
+      hairShape = ``;
+      break;
+    case "afro":
+      hairShape = `<path d="M24 48 a26 24 0 1 1 52 0 q-8 -9 -26 -9 q-18 0 -26 9 Z" fill="${h}"/>`;
+      break;
+    case "mohawk":
+      hairShape = `<path d="M44 44 Q44 25 50 24 Q56 25 56 44 Q53 39 50 39 Q47 39 44 44 Z" fill="${h}"/>`;
+      break;
+  }
+  return `
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name} avatar">
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 Z" fill="${KIT.body}"/>
+    <path d="M18 100 q5 -26 32 -26 q27 0 32 26 l-8 0 q-4 -20 -24 -20 q-20 0 -24 20 Z" fill="${KIT.collar}"/>
+    <path d="M44 76 l6 7 l6 -7 Z" fill="${KIT.v}"/>
+    <rect x="44" y="62" width="12" height="14" rx="5" fill="${s}"/>
+    <ellipse cx="50" cy="50" rx="19" ry="21" fill="${s}"/>
+    <circle cx="31.5" cy="52" r="3.6" fill="${s}"/><circle cx="68.5" cy="52" r="3.6" fill="${s}"/>
+    ${hairShape}
+  </svg>`;
+}
+
+/* ===========================================================================
+   APP — build the team bar, apply a team (theme + header + pitch + panel).
+   =========================================================================== */
+const ROOT  = document.documentElement;
+const pitch = document.getElementById("pitch");
+const panelContent = document.getElementById("panelContent");
+let activeTeamId = null, activeBtn = null;
+
+function buildTeamBar(){
+  const bar = document.getElementById("teamBar");
+  const label = document.createElement("span");
+  label.className = "bar-label"; label.textContent = "World Cup 2026";
+  bar.appendChild(label);
+  Object.values(window.TEAMS).forEach(t=>{
+    const b = document.createElement("button");
+    b.className = "team-pill"; b.dataset.team = t.id; b.type = "button";
+    b.innerHTML = `<span class="pflag">${t.flag}</span><span>${t.name}</span>`;
+    b.addEventListener("click", ()=>{ if(location.hash !== "#"+t.id) location.hash = t.id; applyTeam(t.id); });
+    bar.appendChild(b);
+  });
+}
+
+function applyTeam(id){
+  const t = window.TEAMS[id];
+  if(!t || id === activeTeamId) return;   // unknown team, or already showing it
+  activeTeamId = id;
+
+  // 1) theme
+  ROOT.style.setProperty("--primary",   t.theme.primary);
+  ROOT.style.setProperty("--secondary", t.theme.secondary);
+  ROOT.style.setProperty("--accent",    t.theme.accent);
+  KIT = {body:t.theme.kitBody, collar:t.theme.kitCollar, v:t.theme.kitV};
+
+  // 2) header
+  document.getElementById("flag").innerHTML = t.flag;
+  document.getElementById("ctx").textContent = t.context;
+  document.getElementById("headline").innerHTML = `${t.name} <span class="accent">${t.headlineAccent}</span>`;
+  document.getElementById("sub").innerHTML =
+    `${t.manager}'s <b>${t.formation}</b> first-choice XI · ${t.ratingNote} · tap a player for the scouting card`;
+  document.getElementById("footer").textContent = t.footer;
+  document.title = `${t.name} Starting XI — World Cup 2026`;
+
+  // 3) active pill
+  document.querySelectorAll(".team-pill").forEach(b=>{
+    const on = b.dataset.team === id;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+
+  // 4) pitch + empty panel
+  renderPitch(t);
+  resetPanel(t);
+}
+
+function renderPitch(t){
+  pitch.querySelectorAll(".player").forEach(n=> n.remove());  // keep markings
+  activeBtn = null;
+  t.players.forEach(p=>{
+    const btn = document.createElement("button");
+    btn.className = "player"; btn.type = "button";
+    btn.style.left = p.x + "%"; btn.style.top = p.y + "%";
+    btn.setAttribute("aria-label", `${p.full}, number ${p.num}, ${p.pos}, rated ${p.rating} out of 10`);
+    btn.innerHTML = `
+      <span class="player-wrap">
+        <span class="badge">${p.num}</span>
+        <span class="avatar">${avatarSVG(p)}</span>
+        <span class="rating">${p.rating.toFixed(1)}</span>
+      </span>
+      <span class="pname">${p.name}</span>`;
+    btn.addEventListener("click", ()=> select(p, btn));
+    pitch.appendChild(btn);
+  });
+}
+
+function resetPanel(t){
+  panelContent.className = "panel-inner panel-empty";
+  panelContent.innerHTML =
+    `<div class="hint-num">${t.hintCorner}</div>
+     <p>Select any player on the pitch to see what kind of player he is, what he's known for, and where he hurts opponents.</p>`;
+}
+
+function select(p, btn){
+  if(activeBtn) activeBtn.classList.remove("active");
+  btn.classList.add("active");
+  activeBtn = btn;
+  panelContent.className = "panel-inner";
+  panelContent.innerHTML = `
+    <div class="ph-row">
+      <div class="ph-avatar">${avatarSVG(p)}</div>
+      <div>
+        <div class="ph-kicker">${p.pos}</div>
+        <div class="ph-name">${p.full}<span class="num">#${p.num}</span></div>
+        <div class="ph-club">${p.club}</div>
+      </div>
+    </div>
+    <div class="rating-line">
+      <div class="rating-big">${p.rating.toFixed(1)}<small> / 10</small></div>
+      <div class="rating-bar"><div class="rating-fill" style="width:0%"></div></div>
+    </div>
+    <div class="sect"><h3>What kind of player</h3><p>${p.type}</p></div>
+    <div class="sect"><h3>Known for</h3><p>${p.known}</p></div>
+    <div class="sect"><h3>Strengths</h3>
+      <div class="chips">${p.strengths.map(s=>`<span class="chip">${s}</span>`).join("")}</div>
+    </div>`;
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    const fill = panelContent.querySelector(".rating-fill");
+    if(fill) fill.style.width = (p.rating*10) + "%";
+  });});
+  if(window.matchMedia("(max-width:760px)").matches){
+    document.getElementById("panel").scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+}
+
+/* ---- boot ---- */
+const TEAM_IDS = Object.keys(window.TEAMS || {});
+if(TEAM_IDS.length === 0){
+  document.getElementById("headline").textContent = "No team data loaded";
+} else {
+  buildTeamBar();
+  const fromHash = (location.hash || "").replace("#","");
+  applyTeam(window.TEAMS[fromHash] ? fromHash : TEAM_IDS[0]);
+  window.addEventListener("hashchange", ()=>{
+    const h = (location.hash || "").replace("#","");
+    if(window.TEAMS[h]) applyTeam(h);
+  });
+}
+</script>
+</body>
+</html>
